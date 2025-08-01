@@ -22,9 +22,6 @@
 import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { valueToPx } from '@shared/utils';
 type IconProps = {
-  strokeWidth?: number;
-  strokeLinecap?: 'butt' | 'round' | 'square';
-  strokeLinejoin?: 'bevel' | 'miter' | 'round' | 'inherit';
   rotate?: number;
   spin?: boolean;
   size?: number | number[];
@@ -36,15 +33,7 @@ const props = withDefaults(defineProps<IconProps>(), {
   strokeLinejoin: 'miter',
   spin: false,
 });
-const {
-  size,
-  spin,
-  rotate,
-  color,
-  strokeLinecap,
-  strokeLinejoin,
-  strokeWidth,
-} = toRefs(props);
+const { size, spin, rotate, color } = toRefs(props);
 const $attrs = useAttrs();
 // 计算style
 const style = computed(() => {
@@ -68,9 +57,6 @@ const style = computed(() => {
 const attrs = computed(() => {
   return {
     style: style.value,
-    'stroke-width': strokeWidth.value,
-    'stroke-linecap': strokeLinecap.value,
-    'stroke-linejoin': strokeLinejoin.value,
     ...($attrs || {}),
   };
 });
