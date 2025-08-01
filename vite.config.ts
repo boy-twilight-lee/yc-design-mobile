@@ -4,6 +4,7 @@ import path from 'path';
 import autoprefixer from 'autoprefixer';
 import VueJsx from '@vitejs/plugin-vue-jsx';
 import dts from 'vite-plugin-dts';
+import postcsspxtoviewport from 'postcss-px-to-viewport-8-plugin';
 
 export default defineConfig({
   plugins: [
@@ -13,6 +14,23 @@ export default defineConfig({
       entryRoot: path.resolve(__dirname, 'src/components'),
       outDir: ['es', 'lib'],
       exclude: ['node_modules/**'],
+    }),
+    postcsspxtoviewport({
+      unitToConvert: 'px',
+      viewportWidth: 375,
+      unitPrecision: 5,
+      propList: ['*'],
+      viewportUnit: 'vw',
+      fontViewportUnit: 'vw',
+      selectorBlackList: ['ignore-', 'ifont'],
+      minPixelValue: 1,
+      mediaQuery: true,
+      replace: true,
+      exclude: [],
+      include: undefined,
+      landscape: false,
+      landscapeUnit: 'vw',
+      landscapeWidth: 1920,
     }),
   ],
   resolve: {

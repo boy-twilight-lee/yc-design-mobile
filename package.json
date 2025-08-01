@@ -8,8 +8,9 @@
     "vue",
     "vue3",
     "ui",
+    "mobile",
     "components",
-    "yc-ui"
+    "yc-ui-mobile"
   ],
   "author": "2429162154@qq.com",
   "license": "MIT",
@@ -77,6 +78,7 @@
     "husky": "^9.1.7",
     "less": "^4.4.0",
     "lint-staged": "^15.5.2",
+    "postcss-px-to-viewport-8-plugin": "^1.2.5",
     "prettier": "^3.6.2",
     "terser": "^5.43.1",
     "typescript": "^5.5.3",
