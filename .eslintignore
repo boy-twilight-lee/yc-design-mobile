@@ -1,0 +1,73 @@
+# 忽略 node_modules 目录
+node_modules/
+
+# 忽略构建输出目录
+dist/
+build/
+
+# 忽略日志文件
+*.log
+
+# 忽略配置文件
+*.config.js
+*.config.json
+
+# 忽略环境变量文件
+.env
+.env.local
+.env.*.local
+
+# 忽略特定的文件
+package-lock.json
+yarn.lock
+
+# 忽略生成的文档
+coverage/
+*.html
+
+# 忽略图片和二进制文件
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.svg
+*.mp3
+*.mp4
+*.mov
+*.avi
+*.m4v
+*.webm
+*.ogg
+*.wav
+*.flac
+*.woff
+*.woff2
+*.ttf
+*.eot
+
+# 忽略特定的目录
+public/
+static/
+vendor/
+
+# 忽略 IDE 特定的文件和目录
+.vscode/
+.idea/
+.DS_Store
+
+# 忽略临时文件
+*.tmp
+*.temp
+*.bak
+
+# 忽略特定的 Markdown 文件
+docs/**/*.md
+CHANGELOG.md
+README.md
+
+# 忽略特定的测试文件
+**/*.test.js
+**/*.spec.js

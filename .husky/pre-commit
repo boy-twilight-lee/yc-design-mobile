@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# 运行代码检查
+lint_output=$(npm run lint 2>&1)
+
+# 检查代码检查的输出是否包含错误信息
+if echo "$lint_output" | grep -iq "error"; then
+  echo "Code linting failed. Please fix the errors and try again."
+  echo "$lint_output"
+  exit 1
+fi
