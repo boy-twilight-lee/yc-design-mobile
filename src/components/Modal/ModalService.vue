@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<ModalServiceProps>(), {
   okButtonDisabled: false,
   cancelButtonDisabled: false,
   zIndex: 1001,
+  lockScroll: true,
   popupContainer: undefined,
   maskClass: '',
   maskStyle: () => ({}),

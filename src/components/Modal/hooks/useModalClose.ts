@@ -1,21 +1,25 @@
 import { ref, Ref, watch } from 'vue';
 import { ModalEmits } from '@/components/Modal/type';
 import { OnBeforeOk, OnBeforeCancel } from '../type';
-import { useControlValue } from '@shared/utils';
+import { useControlValue, isBoolean } from '@shared/utils';
 import useOnBeforeClose from './useOnBeforeClose';
+
+export type CloseEventType = 'ok' | 'cancel' | 'mask';
 
 export default (params: {
   visible: Ref<boolean | undefined>;
   defaultVisible: Ref<boolean>;
   maskClosable: Ref<boolean>;
-  onBeforeOk: OnBeforeOk;
-  onBeforeCancel: OnBeforeCancel;
+  lockScroll: Ref<boolean>;
+  onBeforeOk?: OnBeforeOk;
+  onBeforeCancel?: OnBeforeCancel;
   emits: ModalEmits;
 }) => {
   const {
     maskClosable,
     visible,
     defaultVisible,
+    lockScroll,
     onBeforeCancel,
     onBeforeOk,
     emits,
@@ -36,9 +40,11 @@ export default (params: {
     outerVisible.value = false;
   };
   // 处理关闭
-  const handleClose = async (type: string, ev: MouseEvent) => {
+  const handleClose = async (type: CloseEventType, ev: MouseEvent) => {
     // 执行关闭之前的函数
-    const isClose = await useOnBeforeClose(type, onBeforeOk, onBeforeCancel);
+    const isClose = ['ok', 'cancel'].includes(type)
+      ? await useOnBeforeClose(type, onBeforeOk, onBeforeCancel)
+      : true;
     if (!isClose) {
       return;
     }
@@ -56,7 +62,7 @@ export default (params: {
   watch(
     () => innerVisible.value,
     (val) => {
-      document.body.style.overflow = val ? 'hidden' : '';
+      document.body.style.overflow = val && lockScroll.value ? 'hidden' : '';
       if (!val) return;
       outerVisible.value = val;
     },

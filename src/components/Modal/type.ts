@@ -17,6 +17,7 @@ export interface ModalProps {
   cancelButtonDisabled?: boolean;
   zIndex?: number;
   popupContainer?: PopupContainer;
+  lockScroll?: boolean;
   maskClass?: ClassName;
   maskStyle?: CSSProperties;
   modalClass?: ClassName;

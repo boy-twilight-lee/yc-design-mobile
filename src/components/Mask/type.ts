@@ -13,7 +13,7 @@ export interface MaskProps {
 
 export interface MaskEmits {
   (e: 'update:visible', value: boolean): void;
-  (e: 'click', ev: Event): void;
+  (e: 'click', ev: MouseEvent): void;
 }
 
 export interface MaskSlots {

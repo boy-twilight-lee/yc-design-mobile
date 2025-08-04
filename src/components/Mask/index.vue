@@ -3,7 +3,7 @@
     <div
       v-if="!unmountOnClose || computedVisible"
       v-show="computedVisible"
-      :class="['yc-modal-mask', maskClass]"
+      :class="['yc-mask', maskClass]"
       :style="{
         zIndex,
         ...maskStyle,

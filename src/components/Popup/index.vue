@@ -1,28 +1,36 @@
 <template>
-  <teleport :to="popupContainer" :disabled="!renderToBody">
+  <teleport :to="popupContainer || 'body'">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
       :class="[
-        'yc-drawer-wrapper',
-        `yc-drawer-placement-${placement}`,
+        'yc-popup-container',
+        `yc-popup-placement-${placement}`,
         {
-          'yc-drawer-position-absolute': popupContainer || !renderToBody,
+          'yc-popup-round': round,
         },
       ]"
       :style="{
         zIndex,
+        position: isUndefined(popupContainer) ? 'fixed' : 'absolute',
       }"
     >
-      <!-- mask -->
-      <transition name="fade">
-        <div
-          v-if="mask"
-          v-show="innerVisible"
-          class="yc-drawer-mask"
-          @click="handleClose('mask', $event)"
-        ></div>
-      </transition>
+      <yc-mask
+        v-if="mask"
+        v-model:visible="innerVisible"
+        :z-index="0"
+        :mask-class="['yc-popup-mask', maskClass as unknown as string]"
+        :mask-style="{
+          position: 'absolute',
+          ...maskStyle,
+        }"
+        @click="
+          (ev) => {
+            $emit('click-mask', ev);
+            handleClose('mask', ev);
+          }
+        "
+      />
       <!-- drawer -->
       <transition
         :name="`slide-drawer-${placement}`"
@@ -33,53 +41,13 @@
       >
         <div
           v-show="innerVisible"
-          :class="['yc-drawer-container', $attrs.class]"
+          :class="['yc-popup', $attrs.class]"
           :style="{
-            ...drawerStyle,
+            ...popupStyle,
             ...($attrs.style ?? {}),
           }"
         >
-          <!-- header -->
-          <slot name="header">
-            <div v-if="header" class="yc-drawer-header">
-              <!-- title -->
-              <div class="yc-drawer-title text-ellipsis">
-                <slot name="title">
-                  {{ title }}
-                </slot>
-              </div>
-              <!-- close-btn -->
-              <icon-button
-                v-if="closable"
-                class="yc-modal-close-button"
-                @click="handleClose('closeBtn', $event)"
-              />
-            </div>
-          </slot>
-          <!-- body -->
-          <div class="yc-drawer-body">
-            <slot />
-          </div>
-          <!-- footer -->
-          <slot name="footer">
-            <div v-if="footer" class="yc-drawer-footer">
-              <yc-button
-                v-if="!hideCancel"
-                v-bind="cancelButtonProps"
-                @click="handleClose('cancelBtn', $event)"
-              >
-                {{ cancelText }}
-              </yc-button>
-              <yc-button
-                type="primary"
-                :loading="okLoading || asyncLoading"
-                v-bind="okButtonProps"
-                @click="handleClose('confirmBtn', $event)"
-              >
-                {{ okText }}
-              </yc-button>
-            </div>
-          </slot>
+          <slot />
         </div>
       </transition>
     </div>
@@ -88,54 +56,33 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
-import { DrawerProps, DrawerEmits, DrawerSlots } from './type';
-import { getGlobalConfig, valueToPx } from '@shared/utils';
-import useDrawerClose from '@/components/Modal/hooks/useModalClose';
-import YcButton from '@/components/Button';
-import { IconButton } from '@shared/components';
+import { PopupProps, PopupEmits, PopupSlots } from './type';
+import { valueToPx, isUndefined } from '@shared/utils';
+import usePopupClose from '@/components/Modal/hooks/useModalClose';
 defineOptions({
-  name: 'Drawer',
+  name: 'Popup',
   inheritAttrs: false,
 });
-defineSlots<DrawerSlots>();
-const props = withDefaults(defineProps<DrawerProps>(), {
+defineSlots<PopupSlots>();
+const props = withDefaults(defineProps<PopupProps>(), {
   visible: undefined,
   defaultVisible: false,
-  placement: 'right',
-  title: '',
+  placement: 'bottom',
   mask: true,
+  maskClass: '',
+  maskStyle: () => ({}),
   maskClosable: true,
-  closable: true,
-  okText: '确认',
-  cancelText: '取消',
-  okLoading: false,
-  okButtonProps: () => {
-    return {};
-  },
-  cancelButtonProps: () => {
-    return {};
-  },
+  popupClass: '',
+  popupStyle: () => ({}),
+  round: true,
+  zIndex: 1001,
+  lockScroll: true,
   unmountOnClose: false,
-  width: 250,
-  height: 250,
+  width: '30%',
+  height: '30%',
   popupContainer: undefined,
-  drawerStyle: () => {
-    return {};
-  },
-  escToClose: true,
-  renderToBody: true,
-  header: true,
-  footer: true,
-  hideCancel: false,
-  onBeforeCancel: () => {
-    return true;
-  },
-  onBeforeOk: () => {
-    return true;
-  },
 });
-const emits = defineEmits<DrawerEmits>();
-// 结构属性
+const emits = defineEmits<PopupEmits>();
 const {
   visible,
   defaultVisible,
@@ -143,15 +90,11 @@ const {
   height,
   placement,
   maskClosable,
-  escToClose,
-  drawerStyle: _drawerStyle,
-  renderToBody,
+  lockScroll,
+  popupStyle: _popupStyle,
 } = toRefs(props);
-const { onBeforeOk, onBeforeCancel } = props;
-// 接收configProvider
-const { zIndex, popupContainer } = getGlobalConfig(props);
 // drawer绝对定位的left,top
-const drawerStyle = computed(() => {
+const popupStyle = computed(() => {
   return {
     height:
       placement.value == 'left' || placement.value == 'right'
@@ -162,27 +105,20 @@ const drawerStyle = computed(() => {
         ? valueToPx(width.value)
         : `100%`,
     // 传入样式
-    ..._drawerStyle.value,
+    ..._popupStyle.value,
   } as CSSProperties;
 });
 // 处理组件关闭开启
-const {
-  outerVisible,
-  innerVisible,
-  asyncLoading,
-  handleClose,
-  handleAfterLeave,
-} = useDrawerClose({
-  visible,
-  defaultVisible,
-  escToClose,
-  maskClosable,
-  onBeforeCancel,
-  onBeforeOk,
-  emits,
-});
+const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
+  usePopupClose({
+    visible,
+    defaultVisible,
+    maskClosable,
+    lockScroll,
+    emits: emits as any,
+  });
 </script>
 
 <style lang="less" scoped>
-@import './style/drawer.less';
+@import './style/popup.less';
 </style>

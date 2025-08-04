@@ -12,8 +12,8 @@
       <yc-mask
         v-if="mask"
         v-model:visible="innerVisible"
-        :mask-class="maskClass"
         :z-index="0"
+        :mask-class="['yc-modal-mask', maskClass as unknown as string]"
         :mask-style="{
           position: 'absolute',
           ...maskStyle,
@@ -125,6 +125,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   cancelButtonDisabled: false,
   zIndex: 1001,
   popupContainer: undefined,
+  lockScroll: true,
   maskClass: '',
   maskStyle: () => ({}),
   modalClass: '',
@@ -142,6 +143,7 @@ const {
   defaultVisible,
   width,
   maskClosable,
+  lockScroll,
   modalStyle: _modalStyle,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
@@ -151,6 +153,7 @@ const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
     visible,
     defaultVisible,
     maskClosable,
+    lockScroll,
     onBeforeOk,
     onBeforeCancel,
     emits,

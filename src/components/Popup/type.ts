@@ -1,80 +1,36 @@
 import { CSSProperties } from 'vue';
-import { ButtonProps } from '@/components/Button';
-import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal';
-import { RenderContent, PopupContainer } from '@shared/type';
-export interface DrawerProps {
+import { OnBeforeOk } from '@/components/Modal';
+import { PopupContainer } from '@shared/type';
+export interface PopupProps {
   visible?: boolean;
   defaultVisible?: boolean;
-  placement?: DrawerPlacement;
-  title?: string;
+  placement?: PopupPlacement;
   mask?: boolean;
+  maskClass?: string;
+  maskStyle?: CSSProperties;
   maskClosable?: boolean;
-  closable?: boolean;
-  okText?: string;
-  cancelText?: string;
-  okLoading?: boolean;
-  okButtonProps?: ButtonProps;
-  cancelButtonProps?: ButtonProps;
+  popupClass?: string;
+  popupStyle?: CSSProperties;
+  round?: boolean;
+  zIndex?: number;
+  lockScroll?: boolean;
   unmountOnClose?: boolean;
   width?: number | string;
   height?: number | string;
   popupContainer?: PopupContainer;
-  drawerStyle?: CSSProperties;
-  escToClose?: boolean;
-  renderToBody?: boolean;
-  header?: boolean;
-  footer?: boolean;
-  hideCancel?: boolean;
-  onBeforeCancel?: OnBeforeCancel;
-  onBeforeOk?: OnBeforeOk;
 }
 
-export interface DrawerSlots {
+export interface PopupSlots {
   default(): void;
-  header(): void;
-  footer(): void;
-  title(): void;
 }
 
-export interface DrawerEmits {
+export interface PopupEmits {
   (e: 'update:visible', value: boolean): void;
-  (e: 'ok'): void;
-  (e: 'cancel', event: MouseEvent | KeyboardEvent): void;
+  (e: 'click-mask', ev: MouseEvent): void;
   (e: 'before-open'): void;
   (e: 'open'): void;
   (e: 'before-close'): void;
   (e: 'close'): void;
 }
 
-export type DrawerConfig = Omit<DrawerProps, 'visible' | 'defaultVisible'> & {
-  content?: RenderContent;
-  title?: RenderContent;
-  onOk?: () => void | Promise<void>;
-  onCancel?: () => void | Promise<void>;
-  onOpen?: () => void;
-  onClose?: () => void;
-  onBeforeOpen?: () => void;
-  onBeforeClose?: () => void;
-};
-
-export declare type DrawerUpdateConfig = Omit<
-  DrawerConfig,
-  | 'title'
-  | 'content'
-  | 'onOk'
-  | 'onCancel'
-  | 'onBeforeOk'
-  | 'onBeforeCancel'
-  | 'onOpen'
-  | 'onClose'
-  | 'onBeforeOpen'
-  | 'onBeforeClose'
-  | 'header'
-  | 'footer'
->;
-
-export type DrawerServiceProps = DrawerConfig & {
-  serviceClose?: () => void;
-};
-
-export type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
+export type PopupPlacement = 'right' | 'left' | 'top' | 'bottom';

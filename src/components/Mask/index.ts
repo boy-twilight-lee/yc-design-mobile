@@ -1,19 +1,19 @@
 import { App } from 'vue';
-import _Popup from './index.vue';
+import _Mask from './index.vue';
 
-export type PopupInstance = InstanceType<typeof _Popup>;
+export type MaskInstance = InstanceType<typeof _Mask>;
 export * from './type';
 
-const Popup = Object.assign(_Popup, {
+const Mask = Object.assign(_Mask, {
   install: (app: App) => {
-    app.component('Yc' + _Popup.name, _Popup);
+    app.component('Yc' + _Mask.name, _Mask);
   },
 });
 
 declare module 'vue' {
   export interface GlobalComponents {
-    YcPopup: typeof Popup;
+    YcMask: typeof Mask;
   }
 }
 
-export default Popup;
+export default Mask;
