@@ -1,7 +1,20 @@
 <template>
   <div class="container">
-    <button @click="visible = true">测试</button>
-    <yc-modal v-model:visible="visible" />
+    <button
+      @click="
+        $modal.open({
+          title: '标题',
+          content:
+            '如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。',
+        })
+      "
+    >
+      测试
+    </button>
+    <!-- <van-dialog :show="true" title="测试" confirm-button-disabled>
+      dsaddas
+    </van-dialog> -->
+    <yc-modal v-model:visible="visible" ok-button-disabled />
   </div>
 </template>
 

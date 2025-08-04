@@ -17,5 +17,7 @@ declare module 'vue' {
     ModalService: typeof import('./src/components/Modal/ModalService.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VanDialog: typeof import('vant/es')['Dialog']
+    VantDialog: typeof import('vant/es')['tDialog']
   }
 }

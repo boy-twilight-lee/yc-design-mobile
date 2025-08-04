@@ -32,7 +32,14 @@
           @click.self="handleClose('mask', $event)"
         >
           <div
-            :class="['yc-modal', modalClass, $attrs.class]"
+            :class="[
+              'yc-modal',
+              modalClass,
+              $attrs.class,
+              {
+                'yc-modal-has-title': title || $slots.header,
+              },
+            ]"
             :style="{
               width: valueToPx(width),
               ...modalStyle,
@@ -40,14 +47,13 @@
             }"
           >
             <!-- header -->
-            <div
-              v-if="title || $slots.header"
-              class="yc-modal-header text-ellipsis"
-            >
-              <slot name="header">
-                {{ title }}
-              </slot>
-            </div>
+            <slot v-if="title || $slots.header" name="header">
+              <div class="yc-modal-header">
+                <span class="text-ellipsis">
+                  {{ title }}
+                </span>
+              </div>
+            </slot>
             <!-- body -->
             <div class="yc-modal-body" :class="bodyClass" :style="bodyStyle">
               <slot />
@@ -106,7 +112,6 @@ const props = withDefaults(defineProps<ModalProps>(), {
   width: 310,
   mask: true,
   title: '',
-  titleAlign: 'center',
   unmountOnClose: false,
   maskClosable: true,
   hideCancel: false,

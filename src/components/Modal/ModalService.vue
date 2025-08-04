@@ -9,10 +9,10 @@
     @open="onOpen?.()"
     @close="handleClose"
   >
-    <template #title>
+    <template v-if="title" #title>
       <component :is="getSlotFunction(title)" />
     </template>
-    <div class="yc-modal-body-content text-ellipsis">
+    <div class="yc-modal-body-content">
       <component :is="getSlotFunction(content)" />
     </div>
   </yc-modal>
@@ -24,53 +24,31 @@ import { ModalServiceProps } from './type';
 import { getSlotFunction } from '@shared/utils';
 import YcModal from './Modal.vue';
 const props = withDefaults(defineProps<ModalServiceProps>(), {
-  width: 520,
-  top: 100,
+  visible: undefined,
+  defaultVisible: false,
+  width: 310,
   mask: true,
   title: '',
-  titleAlign: 'center',
-  alignCenter: true,
   unmountOnClose: false,
   maskClosable: true,
   hideCancel: false,
-  closable: true,
-  okText: '确认',
+  hideOk: false,
+  okText: '确定',
   cancelText: '取消',
-  okLoading: false,
-  okButtonProps: () => {
-    return {};
-  },
-  cancelButtonProps: () => {
-    return {};
-  },
-  footer: true,
-  renderToBody: true,
-  popupContainer: '.yc-overlay-modal',
-  maskStyle: () => {
-    return {};
-  },
+  okButtonDisabled: false,
+  cancelButtonDisabled: false,
+  zIndex: 1001,
+  popupContainer: undefined,
+  maskClass: '',
+  maskStyle: () => ({}),
   modalClass: '',
-  modalStyle: () => {
-    return {};
-  },
-  escToClose: true,
-  draggable: false,
-  fullscreen: false,
+  modalStyle: () => ({}),
   maskAnimationName: 'fade',
   modalAnimationName: 'zoom-modal',
   bodyClass: '',
-  bodyStyle: () => {
-    return {};
-  },
-  hideTitle: false,
-  simple: false,
-  onBeforeCancel: () => {
-    return true;
-  },
-  onBeforeOk: () => {
-    return true;
-  },
-  content: '',
+  bodyStyle: () => ({}),
+  onBeforeCancel: () => true,
+  onBeforeOk: () => true,
 });
 const { onClose, serviceClose } = props;
 // visible
@@ -92,7 +70,6 @@ onMounted(() => {
       width: 100%;
       line-height: 26px;
       color: #474c59;
-      font-family: 'PingFang SC';
       font-size: 16px;
       font-weight: 400;
     }

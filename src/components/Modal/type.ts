@@ -60,7 +60,6 @@ export type ModalUpdateConfig = Omit<
   ModalConfig,
   | 'title'
   | 'content'
-  | 'footer'
   | 'onOk'
   | 'onCancel'
   | 'onBeforeOk'
@@ -77,7 +76,6 @@ export type ModalServiceProps = ModalConfig & {
 
 export type ModalReturn = {
   close: () => void;
-  update: (config: ModalUpdateConfig) => void;
 };
 
 export type ModalMethod = {
