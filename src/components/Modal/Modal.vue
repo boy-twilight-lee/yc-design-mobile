@@ -63,32 +63,24 @@
             <!-- footer -->
             <slot v-if="$slots.footer || !hideCancel || !hideOk" name="footer">
               <div class="yc-modal-footer">
-                <button
+                <yc-button
                   v-if="!hideCancel"
-                  :class="[
-                    'yc-modal-cancel-button',
-                    {
-                      'yc-button-disabled': cancelButtonDisabled,
-                    },
-                  ]"
-                  :disabled="cancelButtonDisabled"
+                  type="text"
+                  class="yc-modal-cancel-button"
+                  v-bind="cancelButtonProps"
                   @click="handleClose('cancel', $event)"
                 >
                   {{ cancelText }}
-                </button>
-                <button
+                </yc-button>
+                <yc-button
                   v-if="!hideOk"
-                  :class="[
-                    'yc-modal-ok-button',
-                    {
-                      'yc-button-disabled': okButtonDisabled,
-                    },
-                  ]"
-                  :disabled="okButtonDisabled"
+                  type="text"
+                  class="yc-modal-ok-button"
+                  v-bind-="okButtonProps"
                   @click="handleClose('ok', $event)"
                 >
                   {{ okText }}
-                </button>
+                </yc-button>
               </div>
             </slot>
           </div>
@@ -104,6 +96,7 @@ import { ModalProps, ModalEmits, ModalSlots } from './type';
 import { valueToPx, isUndefined } from '@shared/utils';
 import useModalClose from './hooks/useModalClose';
 import YcMask from '../Mask';
+import YcButton from '../Button';
 defineOptions({
   name: 'Modal',
   inheritAttrs: false,
@@ -121,8 +114,8 @@ const props = withDefaults(defineProps<ModalProps>(), {
   hideOk: false,
   okText: '确定',
   cancelText: '取消',
-  okButtonDisabled: false,
-  cancelButtonDisabled: false,
+  okButtonProps: () => ({}),
+  cancelButtonProps: () => ({}),
   zIndex: 1001,
   popupContainer: undefined,
   lockScroll: true,

@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    Button: typeof import('./src/components/Button/Button.vue')['default']
+    ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
     Collapse: typeof import('./src/components/Collapse/Collapse.vue')['default']
     CollapseItem: typeof import('./src/components/Collapse/CollapseItem.vue')['default']
     Drawer: typeof import('./src/components/Drawer/Drawer.vue')['default']

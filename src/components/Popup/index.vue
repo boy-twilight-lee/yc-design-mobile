@@ -74,12 +74,14 @@ const props = withDefaults(defineProps<PopupProps>(), {
   maskClosable: true,
   popupClass: '',
   popupStyle: () => ({}),
-  round: true,
+  round: (props) => {
+    return ['top', 'bottom'].includes(props.placement || 'bottom');
+  },
   zIndex: 1001,
   lockScroll: true,
   unmountOnClose: false,
-  width: '30%',
-  height: '30%',
+  width: '50%',
+  height: '50%',
   popupContainer: undefined,
 });
 const emits = defineEmits<PopupEmits>();

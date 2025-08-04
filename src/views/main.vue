@@ -1,7 +1,8 @@
 <template>
   <div class="container">
-    <button @click="visible = true">测试</button>
+    <yc-button type="primary" @click="visible = true">测试</yc-button>
     <yc-popup v-model:visible="visible" />
+    <yc-modal :visible="true" />
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 import { CSSProperties } from 'vue';
 import { RenderContent, PopupContainer, ClassName } from '@shared/type';
+import { ButtonProps } from '@/components/Button';
 
 export interface ModalProps {
   visible?: boolean;
@@ -13,8 +14,8 @@ export interface ModalProps {
   hideOk?: boolean;
   okText?: string;
   cancelText?: string;
-  okButtonDisabled?: boolean;
-  cancelButtonDisabled?: boolean;
+  okButtonProps?: ButtonProps;
+  cancelButtonProps?: ButtonProps;
   zIndex?: number;
   popupContainer?: PopupContainer;
   lockScroll?: boolean;
@@ -77,15 +78,6 @@ export type ModalServiceProps = ModalConfig & {
 
 export type ModalReturn = {
   close: () => void;
-};
-
-export type ModalMethod = {
-  open: (props: ModalConfig) => ModalReturn;
-  success: (props: ModalConfig) => ModalReturn;
-  error: (props: ModalConfig) => ModalReturn;
-  warning: (props: ModalConfig) => ModalReturn;
-  info: (props: ModalConfig) => ModalReturn;
-  confirm: (props: ModalConfig) => ModalReturn;
 };
 
 export type OnBeforeOk = (
