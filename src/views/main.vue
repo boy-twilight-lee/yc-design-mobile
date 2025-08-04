@@ -11,9 +11,6 @@
     >
       测试
     </button>
-    <!-- <van-dialog :show="true" title="测试" confirm-button-disabled>
-      dsaddas
-    </van-dialog> -->
     <yc-modal v-model:visible="visible" ok-button-disabled />
   </div>
 </template>

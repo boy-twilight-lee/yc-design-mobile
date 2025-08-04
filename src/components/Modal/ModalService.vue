@@ -24,8 +24,6 @@ import { ModalServiceProps } from './type';
 import { getSlotFunction } from '@shared/utils';
 import YcModal from './Modal.vue';
 const props = withDefaults(defineProps<ModalServiceProps>(), {
-  visible: undefined,
-  defaultVisible: false,
   width: 310,
   mask: true,
   title: '',

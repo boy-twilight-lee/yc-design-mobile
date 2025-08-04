@@ -9,15 +9,17 @@
         zIndex,
       }"
     >
-      <!-- mask -->
-      <transition :name="maskAnimationName">
-        <div
-          v-if="mask"
-          v-show="innerVisible"
-          :class="['yc-modal-mask', maskClass]"
-          :style="maskStyle"
-        ></div>
-      </transition>
+      <yc-mask
+        v-if="mask"
+        v-model:visible="innerVisible"
+        :mask-class="maskClass"
+        :z-index="0"
+        :mask-style="{
+          position: 'absolute',
+          ...maskStyle,
+        }"
+        :mask-animation-name="maskAnimationName"
+      />
       <!-- modal -->
       <transition
         :name="modalAnimationName"
@@ -101,6 +103,7 @@ import { toRefs } from 'vue';
 import { ModalProps, ModalEmits, ModalSlots } from './type';
 import { valueToPx, isUndefined } from '@shared/utils';
 import useModalClose from './hooks/useModalClose';
+import YcMask from '../Mask';
 defineOptions({
   name: 'Modal',
   inheritAttrs: false,
