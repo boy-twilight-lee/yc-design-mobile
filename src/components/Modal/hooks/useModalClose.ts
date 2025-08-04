@@ -56,6 +56,7 @@ export default (params: {
   watch(
     () => innerVisible.value,
     (val) => {
+      document.body.style.overflow = val ? 'hidden' : '';
       if (!val) return;
       outerVisible.value = val;
     },

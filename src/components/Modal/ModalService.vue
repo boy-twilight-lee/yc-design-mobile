@@ -2,12 +2,6 @@
   <yc-modal
     v-bind="props"
     v-model:visible="visible"
-    :modal-class="[
-      'yc-service-modal',
-      {
-        [`yc-service-modal-${type}`]: !!type,
-      },
-    ]"
     @ok="onOk?.()"
     @cancel="onCancel?.()"
     @before-open="onBeforeOpen?.()"
@@ -16,9 +10,7 @@
     @close="handleClose"
   >
     <template #title>
-      <span class="yc-modal-title-content text-ellipsis">
-        <component :is="getSlotFunction(title)" />
-      </span>
+      <component :is="getSlotFunction(title)" />
     </template>
     <div class="yc-modal-body-content text-ellipsis">
       <component :is="getSlotFunction(content)" />
@@ -95,22 +87,6 @@ onMounted(() => {
 
 <style lang="less">
 .yc-service-modal {
-  .yc-modal-header {
-    .yc-modal-title {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      .yc-modal-title-icon {
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-      }
-      .yc-modal-title-content {
-        flex-shrink: 0;
-        overflow: hidden;
-      }
-    }
-  }
   .yc-modal-body {
     .yc-modal-body-content {
       width: 100%;
@@ -122,19 +98,4 @@ onMounted(() => {
     }
   }
 }
-// icon-color
-@type: {
-  info: rgb(22, 93, 255);
-  success: rgb(0, 180, 42);
-  warning: rgb(255, 125, 0);
-  error: rgb(245, 63, 63);
-  confirm: rgb(255, 125, 0);
-};
-each(@type, {
-    .yc-service-modal-@{key}  {
-      .yc-modal-title-icon{
-        color: @value;
-      }
-    }
-  });
 </style>

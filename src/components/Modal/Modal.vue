@@ -40,7 +40,10 @@
             }"
           >
             <!-- header -->
-            <div v-if="title || $slots.header" class="yc-modal-header">
+            <div
+              v-if="title || $slots.header"
+              class="yc-modal-header text-ellipsis"
+            >
               <slot name="header">
                 {{ title }}
               </slot>
@@ -88,7 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, CSSProperties } from 'vue';
+import { toRefs } from 'vue';
 import { ModalProps, ModalEmits, ModalSlots } from './type';
 import { valueToPx, isUndefined } from '@shared/utils';
 import useModalClose from './hooks/useModalClose';
