@@ -68,7 +68,7 @@
                   type="text"
                   class="yc-modal-cancel-button"
                   v-bind="cancelButtonProps"
-                  @click="handleClose('cancel', $event)"
+                  @click="handleClose('cancelBtn', $event)"
                 >
                   {{ cancelText }}
                 </yc-button>
@@ -76,8 +76,9 @@
                   v-if="!hideOk"
                   type="text"
                   class="yc-modal-ok-button"
+                  :loading="asyncLoading"
                   v-bind-="okButtonProps"
-                  @click="handleClose('ok', $event)"
+                  @click="handleClose('confirmBtn', $event)"
                 >
                   {{ okText }}
                 </yc-button>
@@ -141,16 +142,21 @@ const {
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 处理组件关闭开启
-const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
-  useModalClose({
-    visible,
-    defaultVisible,
-    maskClosable,
-    lockScroll,
-    onBeforeOk,
-    onBeforeCancel,
-    emits,
-  });
+const {
+  outerVisible,
+  innerVisible,
+  asyncLoading,
+  handleClose,
+  handleAfterLeave,
+} = useModalClose({
+  visible,
+  defaultVisible,
+  maskClosable,
+  lockScroll,
+  onBeforeOk,
+  onBeforeCancel,
+  emits,
+});
 </script>
 
 <style lang="less" scoped>

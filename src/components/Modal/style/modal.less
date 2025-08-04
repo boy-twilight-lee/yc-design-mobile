@@ -48,10 +48,16 @@
         width: 100%;
         border-top: 1px solid #edf0f7;
         display: flex;
-        .yc-button {
+        &:deep(.yc-button) {
           flex: 1;
           height: 100%;
           font-size: 16px;
+
+          .yc-button-icon {
+            margin-top: -1px;
+            height: 16px;
+            width: 16px;
+          }
           &.yc-modal-cancel-button {
             border-right: 1px solid #edf0f7;
             color: #474f59;

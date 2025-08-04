@@ -39,6 +39,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
+import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Button',
 });

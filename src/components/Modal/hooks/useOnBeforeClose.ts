@@ -1,14 +1,16 @@
+import { Ref } from 'vue';
 import { isBoolean } from '@shared/utils';
 import { OnBeforeOk, OnBeforeCancel } from '../type';
 
 export default async (
   type: string,
-  onBeforeOk?: OnBeforeOk,
-  onBeforeCancel?: OnBeforeCancel
+  asyncLoading: Ref<boolean>,
+  onBeforeOk: OnBeforeOk,
+  onBeforeCancel: OnBeforeCancel
 ) => {
   const handleBeforeOk = () => {
     return new Promise<boolean>(async (resolve) => {
-      const closeResult = onBeforeOk?.(resolve) ?? true;
+      const closeResult = onBeforeOk(resolve);
       let isClose = true;
       if (isBoolean(closeResult)) {
         isClose = closeResult;
@@ -26,10 +28,12 @@ export default async (
     });
   };
   let isClose: boolean;
-  if (type == 'ok') {
+  if (type == 'confirmBtn') {
+    asyncLoading.value = true;
     isClose = await handleBeforeOk();
+    asyncLoading.value = false;
   } else {
-    isClose = onBeforeCancel?.() ?? true;
+    isClose = onBeforeCancel();
   }
   return isClose;
 };
