@@ -7,9 +7,8 @@ export interface ModalProps {
   defaultVisible?: boolean;
   width?: number | string;
   mask?: boolean;
-  title?: string;
-  unmountOnClose?: boolean;
   maskClosable?: boolean;
+  title?: string;
   hideCancel?: boolean;
   hideOk?: boolean;
   okText?: string;
@@ -17,6 +16,7 @@ export interface ModalProps {
   okButtonProps?: ButtonProps;
   cancelButtonProps?: ButtonProps;
   zIndex?: number;
+  unmountOnClose?: boolean;
   popupContainer?: PopupContainer;
   lockScroll?: boolean;
   maskClass?: ClassName;

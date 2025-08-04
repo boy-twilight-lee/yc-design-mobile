@@ -6,77 +6,67 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
+    stroke-width="4"
+    stroke-linecap="butt"
+    stroke-linejoin="miter"
     :class="[
       'yc-icon',
       {
         'yc-icon-spin': spin,
       },
     ]"
-    v-bind="attrs"
   >
     <slot></slot>
   </svg>
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
+import { toRefs, computed } from 'vue';
 import { valueToPx } from '@shared/utils';
 type IconProps = {
-  strokeWidth?: number;
-  strokeLinecap?: 'butt' | 'round' | 'square';
-  strokeLinejoin?: 'bevel' | 'miter' | 'round' | 'inherit';
   rotate?: number;
   spin?: boolean;
   size?: number | number[];
   color?: string;
 };
 const props = withDefaults(defineProps<IconProps>(), {
-  strokeWidth: 4,
-  strokeLinecap: 'butt',
-  strokeLinejoin: 'miter',
   spin: false,
 });
-const {
-  size,
-  spin,
-  rotate,
-  color,
-  strokeLinecap,
-  strokeLinejoin,
-  strokeWidth,
-} = toRefs(props);
-const $attrs = useAttrs();
-// 计算style
-const style = computed(() => {
-  let width = '';
-  let height = '';
-  if (Array.isArray(size.value)) {
-    width = valueToPx(size.value[0]);
-    height = valueToPx(size.value[1]);
-  } else {
-    width = size.value ? valueToPx(size.value) : '1em';
-    height = size.value ? valueToPx(size.value) : '1em';
-  }
-  return {
-    width,
-    height,
-    color: color.value ? color.value : 'inherit',
-    transform: rotate ? `rotate(${rotate.value}deg)` : 'unset',
-  } as CSSProperties;
+const { size, spin, rotate, color: _color } = toRefs(props);
+// width
+const width = computed(() => {
+  return Array.isArray(size.value)
+    ? valueToPx(size.value[0])
+    : (valueToPx(size.value) ?? '1em');
 });
-// 计算attrs
-const attrs = computed(() => {
-  return {
-    style: style.value,
-    'stroke-width': strokeWidth.value,
-    'stroke-linecap': strokeLinecap.value,
-    'stroke-linejoin': strokeLinejoin.value,
-    ...($attrs || {}),
-  };
+// height
+const height = computed(() => {
+  return Array.isArray(size.value)
+    ? valueToPx(size.value[0])
+    : (valueToPx(size.value) ?? '1em');
+});
+// color
+const color = computed(() => {
+  return _color.value ? _color.value : 'inherit';
+});
+// transform
+const transform = computed(() => {
+  return rotate.value ? `rotate(${rotate.value}deg)` : 'unset';
 });
 </script>
 
 <style lang="less" scoped>
+.yc-icon {
+  display: inline-block;
+  overflow: hidden;
+  width: v-bind(width);
+  height: v-bind(height);
+  color: v-bind(color);
+  transform: v-bind(transform);
+  &.yc-icon-spin {
+    animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
+  }
+}
 // 旋转
 @keyframes spin {
   0% {
@@ -85,16 +75,5 @@ const attrs = computed(() => {
   100% {
     transform: rotate(360deg);
   }
-}
-// icon
-.yc-icon {
-  display: inline-block;
-  overflow: hidden;
-  width: 1em;
-  height: 1em;
-  color: inherit;
-}
-.yc-icon-spin {
-  animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
 }
 </style>
