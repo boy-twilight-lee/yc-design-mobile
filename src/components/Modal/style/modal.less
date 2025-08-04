@@ -1,0 +1,68 @@
+.yc-modal-container {
+  position: fixed;
+  inset: 0 0 0 0;
+  overflow: hidden;
+  .yc-modal-mask {
+    position: absolute;
+    inset: 0 0 0 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  .yc-modal-wrapper {
+    position: absolute;
+    inset: 0 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .yc-modal {
+      overflow: hidden;
+      border-radius: 16px;
+      background-color: #fff;
+      line-height: 1.5715;
+      display: flex;
+      flex-direction: column;
+
+      .yc-modal-header {
+        height: 48px;
+        width: 100%;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+      }
+      .yc-modal-body {
+        padding: 24px 10px;
+        color: rgb(29, 33, 41);
+        font-size: 14px;
+      }
+      .yc-modal-footer {
+        height: 46px;
+        width: 100%;
+        border-top: 1px solid #edf0f7;
+        display: flex;
+        .yc-modal-cancel-button,
+        .yc-modal-ok-button {
+          flex: 1;
+          border: none;
+          outline: none;
+          background-color: #fff;
+          font-size: 16px;
+          font-weight: 400;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &:active {
+            background-color: rgba(0, 0, 0, 0.1);
+          }
+          &.yc-modal-cancel-button {
+            border-right: 1px solid #edf0f7;
+            color: #474f59;
+          }
+          &.yc-modal-ok-button {
+            color: #2663ff;
+          }
+          &.yc-button-disabled {
+          }
+        }
+      }
+    }
+  }
+}
