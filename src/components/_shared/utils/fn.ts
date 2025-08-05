@@ -1,4 +1,6 @@
+import { Ref, ref, onMounted, onBeforeUnmount } from 'vue';
 import { isNumber, isString } from './is';
+import * as Hammer from 'hammerjs';
 
 //睡眠函数
 export const sleep = (ms: number) => {
@@ -96,6 +98,5 @@ export const valueToPx = (value: string | number | undefined) => {
   if (isNumber(value) || (isString(value) && numberReg.test(value))) {
     return value + 'px';
   }
-  console.log('value', value);
   return value as string;
 };

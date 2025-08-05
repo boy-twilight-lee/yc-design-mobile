@@ -4,6 +4,7 @@ import Popup from './Popup';
 import Modal from './Modal';
 import Mask from './Mask';
 import Spin from './Spin';
+import { useDraggable } from '@vueuse/core';
 
 const components: Record<string, Plugin> = {
   Button,
