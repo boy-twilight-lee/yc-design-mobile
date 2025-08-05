@@ -198,17 +198,14 @@ watch(
       position: absolute;
       height: 100%;
       padding: 0 16px;
-      color: #79828f;
       display: flex;
       align-items: center;
 
       &.yc-floating-popup-header-left {
         left: 0;
-        font-size: 14px;
       }
       &.yc-floating-popup-header-right {
         right: 0;
-        font-size: 22px;
       }
     }
     .yc-floating-popup-header-title {
