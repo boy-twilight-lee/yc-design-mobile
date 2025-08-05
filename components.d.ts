@@ -9,12 +9,11 @@ declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
-    ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
     Collapse: typeof import('./src/components/Collapse/Collapse.vue')['default']
     CollapseItem: typeof import('./src/components/Collapse/CollapseItem.vue')['default']
-    Drawer: typeof import('./src/components/Drawer/Drawer.vue')['default']
-    DrawerService: typeof import('./src/components/Drawer/DrawerService.vue')['default']
     ExpandTransition: typeof import('./src/components/_shared/components/ExpandTransition.vue')['default']
+    FloatingPopup: typeof import('./src/components/FloatingPopup/index.vue')['default']
+    IconClose: typeof import('./src/components/_shared/icons/IconClose.vue')['default']
     IconLoading: typeof import('./src/components/_shared/icons/IconLoading.vue')['default']
     Mask: typeof import('./src/components/Mask/index.vue')['default']
     Modal: typeof import('./src/components/Modal/Modal.vue')['default']
@@ -23,7 +22,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
-    VanDialog: typeof import('vant/es')['Dialog']
-    VantDialog: typeof import('vant/es')['tDialog']
+    VanFloatingPanel: typeof import('vant/es')['FloatingPanel']
+    VanFloatingPopup: typeof import('vant/es')['FloatingPopup']
   }
 }

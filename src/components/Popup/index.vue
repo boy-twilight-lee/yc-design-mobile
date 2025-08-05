@@ -6,6 +6,7 @@
       :class="[
         'yc-popup-container',
         `yc-popup-placement-${placement}`,
+        $attrs.class,
         {
           'yc-popup-round': round,
         },
@@ -13,13 +14,14 @@
       :style="{
         zIndex,
         position: isUndefined(popupContainer) ? 'fixed' : 'absolute',
+        ...($attrs.style ?? {}),
       }"
     >
       <yc-mask
         v-if="mask"
         v-model:visible="innerVisible"
         :z-index="0"
-        :mask-class="['yc-popup-mask', maskClass as unknown as string]"
+        :mask-class="['yc-popup-mask', maskClass as string]"
         :mask-style="{
           position: 'absolute',
           ...maskStyle,
@@ -27,7 +29,7 @@
         @click="
           (ev) => {
             $emit('click-mask', ev);
-            handleClose('mask', ev);
+            handleClose('mask', ev, false);
           }
         "
       />
@@ -41,11 +43,8 @@
       >
         <div
           v-show="innerVisible"
-          :class="['yc-popup', $attrs.class]"
-          :style="{
-            ...popupStyle,
-            ...($attrs.style ?? {}),
-          }"
+          :class="['yc-popup', popupClass]"
+          :style="popupStyle"
         >
           <slot />
         </div>

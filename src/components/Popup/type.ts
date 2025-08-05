@@ -1,15 +1,14 @@
 import { CSSProperties } from 'vue';
-import { OnBeforeOk } from '@/components/Modal';
-import { PopupContainer } from '@shared/type';
+import { ClassName, PopupContainer } from '@shared/type';
 export interface PopupProps {
   visible?: boolean;
   defaultVisible?: boolean;
   placement?: PopupPlacement;
   mask?: boolean;
-  maskClass?: string;
+  maskClass?: ClassName;
   maskStyle?: CSSProperties;
   maskClosable?: boolean;
-  popupClass?: string;
+  popupClass?: ClassName;
   popupStyle?: CSSProperties;
   round?: boolean;
   zIndex?: number;

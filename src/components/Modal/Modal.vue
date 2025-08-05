@@ -3,10 +3,11 @@
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
-      class="yc-modal-container"
+      :class="['yc-modal-container', $attrs.class]"
       :style="{
         position: isUndefined(popupContainer) ? 'fixed' : 'absolute',
         zIndex,
+        ...($attrs.style ?? {}),
       }"
     >
       <yc-mask
@@ -37,7 +38,6 @@
             :class="[
               'yc-modal',
               modalClass,
-              $attrs.class,
               {
                 'yc-modal-has-title': title || $slots.header,
               },
@@ -45,7 +45,6 @@
             :style="{
               width: valueToPx(width),
               ...modalStyle,
-              ...($attrs.style ?? {}),
             }"
           >
             <!-- header -->

@@ -1,22 +1,12 @@
 <template>
   <div class="container">
-    <yc-button type="secondary">测试</yc-button>
-    <yc-popup v-model:visible="visible" />
-    <div
-      class="demo"
-      :style="{
-        height: valueToPx(height),
-      }"
-      ref="containerRef"
+    <yc-button @click="visible = true">测试</yc-button>
+    <yc-floating-popup
+      v-model:visible="visible"
+      title="测认识"
+      header-left-text="清空"
     >
-      <div
-        style="max-height: 200px; overflow: auto"
-        @scroll="console.log('滚动触发了')"
-      >
-        <div v-for="i in 2000" :key="i">{{ i }}</div>
-      </div>
-      <div class="trigger" ref="triggerRef"></div>
-    </div>
+    </yc-floating-popup>
   </div>
 </template>
 
@@ -24,7 +14,7 @@
 import { ref } from 'vue';
 import { useTouch, useSwipe, valueToPx, sleep } from '@shared/utils';
 
-const visible = ref<boolean>(false);
+const visible = ref<boolean>(true);
 const height = ref<number>(200);
 const containerRef = ref<HTMLDivElement>();
 const triggerRef = ref<HTMLButtonElement>();
