@@ -6,6 +6,7 @@
     :class="$attrs.class"
     :style="$attrs.style"
     height="fit-content"
+    @click-mask="(e) => $emit('click-mask', e)"
     @open="$emit('open')"
     @close="handleClose"
     @before-open="$emit('before-open')"
@@ -29,7 +30,10 @@
         </div>
         <div class="yc-floating-popup-header-title">
           <slot name="title">
-            {{ title }}
+            <template v-if="title">
+              {{ title }}
+            </template>
+            <span class="yc-floating-popup-header-bar"></span>
           </slot>
         </div>
         <div
@@ -45,6 +49,9 @@
       <div class="yc-floating-popup-body">
         <slot />
       </div>
+      <div v-if="$slots.footer" class="yc-floating-popup-footer">
+        <slot name="footer" />
+      </div>
     </div>
   </yc-popup>
 </template>
@@ -56,7 +63,13 @@ import {
   FloatingPopupEmits,
   FloatingPopupSlots,
 } from './type';
-import { useControlValue, sleep, useTouch, valueToPx } from '@shared/utils';
+import {
+  useControlValue,
+  sleep,
+  useTouch,
+  valueToPx,
+  measureDomSize,
+} from '@shared/utils';
 import { IconClose } from '@shared/icons';
 import YcPopup from '@/components/Popup';
 defineOptions({
@@ -88,7 +101,8 @@ const props = withDefaults(defineProps<FloatingPopupProps>(), {
 });
 const emits = defineEmits<FloatingPopupEmits>();
 // visible
-const { visible, defaultVisible, contentDraggable, durations } = toRefs(props);
+const { visible, defaultVisible, contentDraggable, durations, fixedHeight } =
+  toRefs(props);
 // 计算的visible
 const computedVisible = useControlValue<boolean>(
   visible,
@@ -120,17 +134,22 @@ useTouch(triggerRef, {
     if (!containerRef.value) return;
     const { bottom } = containerRef.value!.getBoundingClientRect();
     drawerHeight.value = bottom - y;
+    emits('position-change', y);
   },
   onEnd: async () => {
     if (!containerRef.value) return;
+    if (drawerHeight.value < minHeight) {
+      return (computedVisible.value = false);
+    }
     if (drawerHeight.value > maxHeight) {
       drawerHeight.value = maxHeight;
-      containerRef.value.style.transition = `height ${durations.value / 1000}s cubic-bezier(0.34, 1.56, 0.64, 1)`;
-      await sleep(durations.value);
-      containerRef.value.style.transition = '';
-    } else if (drawerHeight.value < minHeight) {
-      computedVisible.value = false;
     }
+    if (fixedHeight.value) {
+      drawerHeight.value = -1;
+    }
+    containerRef.value.style.transition = `height ${durations.value / 1000}s cubic-bezier(0.34, 1.56, 0.64, 1)`;
+    await sleep(durations.value);
+    containerRef.value.style.transition = '';
   },
 });
 //
@@ -145,18 +164,16 @@ watch(
     if (!val) return;
     await sleep(0);
     drawerHeight.value = containerRef.value!.offsetHeight;
-    const max = document.createElement('div');
-    const min = document.createElement('div');
-    max.style.cssText =
-      'width:100vw;height:90vh;position:absolute;top:0;left:0;z-index:-1;opacity:0';
-    min.style.cssText =
-      'width:100vw;height:60vh;position:absolute;top:0;left:0;z-index:-1;opacity:0';
-    document.body.appendChild(max);
-    document.body.appendChild(min);
-    minHeight = min.offsetHeight;
-    maxHeight = max.offsetHeight;
-    document.body.removeChild(min);
-    document.body.removeChild(max);
+    const { offsetHeight: min } = measureDomSize({
+      width: '100vh',
+      height: '60vh',
+    });
+    const { offsetHeight: max } = measureDomSize({
+      width: '100vh',
+      height: '90vh',
+    });
+    minHeight = min;
+    maxHeight = max;
   },
   {
     immediate: true,
@@ -172,7 +189,7 @@ watch(
   .yc-floating-popup-header {
     position: relative;
     flex-shrink: 0;
-    height: 48px;
+    height: 50px;
     display: flex;
     align-items: center;
     .yc-floating-popup-header-left,
@@ -181,26 +198,34 @@ watch(
       position: absolute;
       height: 100%;
       padding: 0 16px;
+      color: #79828f;
       display: flex;
       align-items: center;
 
       &.yc-floating-popup-header-left {
         left: 0;
         font-size: 14px;
-        color: #969799;
       }
       &.yc-floating-popup-header-right {
         right: 0;
         font-size: 22px;
-        color: #969799;
       }
     }
     .yc-floating-popup-header-title {
       width: 100%;
-      text-align: center;
       font-size: 16px;
       font-weight: 600;
       color: rgb(29, 33, 41);
+      line-height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .yc-floating-popup-header-bar {
+        width: 29px;
+        height: 4px;
+        border-radius: 2px;
+        background-color: #c9ced6;
+      }
     }
   }
   .yc-floating-popup-body {

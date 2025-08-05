@@ -1,6 +1,6 @@
-import { isString } from './is';
+import { isString, isUndefined } from './is';
 import { unrefElement } from '@vueuse/core';
-import { Ref } from 'vue';
+import { CSSProperties, Ref } from 'vue';
 // 是否是服务端渲染
 export const isServerRendering = (() => {
   try {
@@ -40,15 +40,33 @@ export function getDomText(dom: Ref<HTMLElement | undefined>): string {
   return unrefElement(dom)?.innerText || '';
 }
 
-// 获取媒体查询队列
-const getMedicaQueryQuerues = () => {
+// 测量domsize
+export const measureDomSize = (style: CSSProperties) => {
+  const mergeStyle: CSSProperties = {
+    ...style,
+    zIndex: -1,
+    opacity: 0,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+  };
+  const dom = document.createElement('div');
+  let cssText = '';
+  Object.entries(mergeStyle).forEach(([key, value]) => {
+    if (isUndefined(value)) return;
+    const cssProperty = key.replace(
+      /[A-Z]/g,
+      (match) => `-${match.toLowerCase()}`
+    );
+    cssText += `${cssProperty}:${value};`;
+  });
+  dom.style.cssText = cssText;
+  document.body.appendChild(dom);
+  const { offsetHeight, offsetWidth } = dom;
+  document.body.removeChild(dom);
   return {
-    xs: '(min-width: 0)',
-    sm: '(min-width: 576px)',
-    md: '(min-width: 768px)',
-    lg: '(min-width: 992px)',
-    xl: '(min-width: 1200px)',
-    xxl: '(min-width: 1600px)',
+    offsetWidth,
+    offsetHeight,
   };
 };
 
