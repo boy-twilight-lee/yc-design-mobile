@@ -21,6 +21,7 @@ export interface PopupProps {
 
 export interface PopupSlots {
   default(): void;
+  popup(params: { visible: boolean }): void;
 }
 
 export interface PopupEmits {

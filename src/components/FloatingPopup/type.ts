@@ -13,11 +13,11 @@ export interface FloatingPopupProps {
   zIndex?: number;
   lockScroll?: boolean;
   unmountOnClose?: boolean;
-  height?: number | string;
   popupContainer?: PopupContainer;
   title?: string;
   headerLeftText?: string;
   closeable?: boolean;
+  anchors?: number[];
   fixedHeight?: boolean;
   durations?: number;
   contentDraggable?: boolean;

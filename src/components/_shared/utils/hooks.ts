@@ -28,43 +28,6 @@ export const useControlValue = <T>(
   });
 };
 
-const isElementOrParentScrollable = (
-  element: HTMLElement | null,
-  direction: 'vertical' | 'horizontal',
-  container: HTMLElement
-): boolean => {
-  let current = element;
-  // 仅在 container 内部向上遍历
-  while (current && container.contains(current)) {
-    const style = window.getComputedStyle(current);
-
-    if (direction === 'vertical') {
-      const overflowY = style.getPropertyValue('overflow-y');
-      if (
-        (overflowY === 'auto' || overflowY === 'scroll') &&
-        current.scrollHeight > current.clientHeight
-      ) {
-        return true; // 发现垂直可滚动元素
-      }
-    } else {
-      // horizontal
-      const overflowX = style.getPropertyValue('overflow-x');
-      if (
-        (overflowX === 'auto' || overflowX === 'scroll') &&
-        current.scrollWidth > current.clientWidth
-      ) {
-        return true; // 发现水平可滚动元素
-      }
-    }
-
-    // 如果当前元素就是容器本身，停止遍历
-    if (current === container) break;
-
-    current = current.parentElement;
-  }
-
-  return false;
-};
 // 处理拖动
 export const useTouch = (
   target: Ref<any>,
@@ -77,12 +40,12 @@ export const useTouch = (
   const { onStart, onMove, onEnd } = options;
   // 手势识别实例
   let hammer: HammerManager | null = null;
+  // 用于存储上一次 panmove 事件的累计偏移量
+  let oldX = 0;
+  let oldY = 0;
   // 是否拖拽
   const isDragging = ref<boolean>(false);
-  // x
-  const x = ref<number>(0);
-  // y
-  const y = ref<number>(0);
+  // 处理相关逻辑
   onMounted(() => {
     if (!target.value) return;
     hammer = new Hammer.Manager(target.value);
@@ -94,13 +57,14 @@ export const useTouch = (
     );
     hammer.on('panstart', (e) => {
       isDragging.value = true;
+      oldX = 0;
+      oldY = 0;
       onStart?.(e);
     });
     hammer.on('panmove', (e) => {
-      const { x: pageX, y: pageY } = e.center;
-      x.value = pageX;
-      y.value = pageY;
-      onMove?.({ x: x.value, y: y.value }, e);
+      onMove?.({ x: e.deltaX - oldX, y: e.deltaY - oldY }, e);
+      oldX = e.deltaX;
+      oldY = e.deltaY;
     });
     hammer.on('panend', (e) => {
       isDragging.value = false;
@@ -112,8 +76,6 @@ export const useTouch = (
   });
   return {
     isDragging,
-    x,
-    y,
   };
 };
 

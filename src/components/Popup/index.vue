@@ -41,13 +41,15 @@
         @after-enter="$emit('open')"
         @after-leave="handleAfterLeave"
       >
-        <div
-          v-show="innerVisible"
-          :class="['yc-popup', popupClass]"
-          :style="popupStyle"
-        >
-          <slot />
-        </div>
+        <slot name="popup" :visible="innerVisible">
+          <div
+            v-show="innerVisible"
+            :class="['yc-popup', popupClass]"
+            :style="popupStyle"
+          >
+            <slot />
+          </div>
+        </slot>
       </transition>
     </div>
   </teleport>

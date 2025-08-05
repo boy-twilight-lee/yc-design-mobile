@@ -2,57 +2,65 @@
   <yc-popup
     v-bind="props"
     v-model:visible="computedVisible"
-    :popup-class="['yc-floating-popup', popupClass as string]"
     :class="$attrs.class"
     :style="$attrs.style"
-    height="fit-content"
     @click-mask="(e) => $emit('click-mask', e)"
     @open="$emit('open')"
-    @close="handleClose"
+    @close="$emit('close')"
     @before-open="$emit('before-open')"
     @before-close="$emit('before-close')"
   >
-    <div
-      class="yc-floating-popup-container"
-      :style="{
-        height: valueToPx(drawerHeight <= 0 ? height : drawerHeight),
-      }"
-      ref="containerRef"
-    >
-      <div class="yc-floating-popup-header" ref="headerRef">
-        <div
-          v-if="$slots['header-left'] || headerLeftText"
-          class="yc-floating-popup-header-left"
-        >
-          <slot name="header-left">
-            {{ headerLeftText }}
-          </slot>
+    <template #popup="{ visible }">
+      <div
+        v-show="visible"
+        :class="[
+          'yc-floating-popup',
+          popupClass as string,
+          {
+            'yc-floating-popup-round': round,
+          },
+        ]"
+        :style="{
+          inset: `${valueToPx(top)} 0 0 0`,
+          ...popupStyle,
+        }"
+        ref="containerRef"
+      >
+        <div class="yc-floating-popup-header" ref="headerRef">
+          <div
+            v-if="$slots['header-left'] || headerLeftText"
+            class="yc-floating-popup-header-left"
+          >
+            <slot name="header-left">
+              {{ headerLeftText }}
+            </slot>
+          </div>
+          <div class="yc-floating-popup-header-title">
+            <slot name="title">
+              <template v-if="title">
+                {{ title }}
+              </template>
+              <span class="yc-floating-popup-header-bar"></span>
+            </slot>
+          </div>
+          <div
+            v-if="$slots['header-right'] || closeable"
+            class="yc-floating-popup-header-right"
+            @click="computedVisible = false"
+          >
+            <slot name="header-right">
+              <icon-close />
+            </slot>
+          </div>
         </div>
-        <div class="yc-floating-popup-header-title">
-          <slot name="title">
-            <template v-if="title">
-              {{ title }}
-            </template>
-            <span class="yc-floating-popup-header-bar"></span>
-          </slot>
+        <div class="yc-floating-popup-body">
+          <slot />
         </div>
-        <div
-          v-if="$slots['header-right'] || closeable"
-          class="yc-floating-popup-header-right"
-          @click="computedVisible = false"
-        >
-          <slot name="header-right">
-            <icon-close />
-          </slot>
+        <div v-if="$slots.footer" class="yc-floating-popup-footer">
+          <slot name="footer" />
         </div>
       </div>
-      <div class="yc-floating-popup-body">
-        <slot />
-      </div>
-      <div v-if="$slots.footer" class="yc-floating-popup-footer">
-        <slot name="footer" />
-      </div>
-    </div>
+    </template>
   </yc-popup>
 </template>
 
@@ -63,13 +71,7 @@ import {
   FloatingPopupEmits,
   FloatingPopupSlots,
 } from './type';
-import {
-  useControlValue,
-  sleep,
-  useTouch,
-  valueToPx,
-  measureDomSize,
-} from '@shared/utils';
+import { useControlValue, sleep, useTouch, valueToPx } from '@shared/utils';
 import { IconClose } from '@shared/icons';
 import YcPopup from '@/components/Popup';
 defineOptions({
@@ -90,19 +92,25 @@ const props = withDefaults(defineProps<FloatingPopupProps>(), {
   zIndex: 1001,
   lockScroll: true,
   unmountOnClose: false,
-  height: '60vh',
   popupContainer: undefined,
   title: '',
   headerLeftText: '',
   closeable: true,
   fixedHeight: false,
+  anchors: () => [0.6, 0.9],
   durations: 200,
   contentDraggable: true,
 });
 const emits = defineEmits<FloatingPopupEmits>();
 // visible
-const { visible, defaultVisible, contentDraggable, durations, fixedHeight } =
-  toRefs(props);
+const {
+  visible,
+  defaultVisible,
+  contentDraggable,
+  durations,
+  fixedHeight,
+  anchors,
+} = toRefs(props);
 // 计算的visible
 const computedVisible = useControlValue<boolean>(
   visible,
@@ -119,61 +127,48 @@ const headerRef = ref<HTMLDivElement>();
 const triggerRef = computed(() =>
   contentDraggable.value ? containerRef.value : headerRef.value
 );
+// 最小高度
+const minHeight = computed(() => {
+  return anchors.value[0] <= 1
+    ? anchors.value[0] * window.innerHeight
+    : anchors.value[0];
+});
+// 最大高度
+const maxHeight = computed(() => {
+  return anchors.value[1] <= 1
+    ? anchors.value[1] * window.innerHeight
+    : anchors.value[1];
+});
 // dawerHeight
-const drawerHeight = ref<number>(-1);
-// 最小最大搞
-let minHeight = 0;
-let maxHeight = 0;
+const top = ref<number>(0);
 // 处理拖动
 useTouch(triggerRef, {
   onStart() {
-    if (!containerRef.value) return;
     containerRef.value!.style.transition = 'none';
   },
   onMove({ y }) {
-    if (!containerRef.value) return;
-    const { bottom } = containerRef.value!.getBoundingClientRect();
-    drawerHeight.value = bottom - y;
-    emits('position-change', y);
+    top.value += y;
+    emits('position-change', top.value);
   },
   onEnd: async () => {
-    if (!containerRef.value) return;
-    if (drawerHeight.value < minHeight) {
-      return (computedVisible.value = false);
+    const height = window.innerHeight - top.value;
+    if (height < minHeight.value) {
+      computedVisible.value = false;
     }
-    if (drawerHeight.value > maxHeight) {
-      drawerHeight.value = maxHeight;
+    if (height > maxHeight.value) {
+      top.value = window.innerHeight - maxHeight.value;
+      containerRef.value!.style.transition = `top ${durations.value / 1000}s cubic-bezier(0.34, 1.56, 0.64, 1)`;
+      await sleep(durations.value);
     }
-    if (fixedHeight.value) {
-      drawerHeight.value = -1;
-    }
-    containerRef.value.style.transition = `height ${durations.value / 1000}s cubic-bezier(0.34, 1.56, 0.64, 1)`;
-    await sleep(durations.value);
-    containerRef.value.style.transition = '';
+    containerRef.value!.style.transition = '';
   },
 });
-//
-const handleClose = () => {
-  drawerHeight.value = -1;
-  emits('close');
-};
 // 检测
 watch(
   () => computedVisible.value,
   async (val) => {
     if (!val) return;
-    await sleep(0);
-    drawerHeight.value = containerRef.value!.offsetHeight;
-    const { offsetHeight: min } = measureDomSize({
-      width: '100vh',
-      height: '60vh',
-    });
-    const { offsetHeight: max } = measureDomSize({
-      width: '100vh',
-      height: '90vh',
-    });
-    minHeight = min;
-    maxHeight = max;
+    top.value = window.innerHeight - minHeight.value;
   },
   {
     immediate: true,
@@ -182,51 +177,5 @@ watch(
 </script>
 
 <style lang="less">
-.yc-floating-popup-container {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  .yc-floating-popup-header {
-    position: relative;
-    flex-shrink: 0;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    .yc-floating-popup-header-left,
-    .yc-floating-popup-header-right {
-      z-index: 1;
-      position: absolute;
-      height: 100%;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-
-      &.yc-floating-popup-header-left {
-        left: 0;
-      }
-      &.yc-floating-popup-header-right {
-        right: 0;
-      }
-    }
-    .yc-floating-popup-header-title {
-      width: 100%;
-      font-size: 16px;
-      font-weight: 600;
-      color: rgb(29, 33, 41);
-      line-height: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .yc-floating-popup-header-bar {
-        width: 29px;
-        height: 4px;
-        border-radius: 2px;
-        background-color: #c9ced6;
-      }
-    }
-  }
-  .yc-floating-popup-body {
-    flex: 1;
-  }
-}
+@import './style/floating-popup.less';
 </style>
