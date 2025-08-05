@@ -2,14 +2,17 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import autoprefixer from 'autoprefixer';
-import VueJsx from '@vitejs/plugin-vue-jsx';
 import dts from 'vite-plugin-dts';
 import postcsspxtoviewport from 'postcss-px-to-viewport-8-plugin';
+import Components from 'unplugin-vue-components/vite';
+import { VantResolver } from 'unplugin-vue-components/resolvers';
 
 export default defineConfig({
   plugins: [
     vue(),
-    VueJsx(),
+    Components({
+      resolvers: [VantResolver()],
+    }),
     dts({
       entryRoot: path.resolve(__dirname, 'src/components'),
       outDir: ['es', 'lib'],

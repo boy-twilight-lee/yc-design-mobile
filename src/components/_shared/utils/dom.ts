@@ -1,6 +1,6 @@
-import { Ref } from 'vue';
 import { isString } from './is';
-import { unrefElement } from './vue-utils';
+import { unrefElement } from '@vueuse/core';
+import { Ref } from 'vue';
 // 是否是服务端渲染
 export const isServerRendering = (() => {
   try {
@@ -39,6 +39,18 @@ export const getElement = (
 export function getDomText(dom: Ref<HTMLElement | undefined>): string {
   return unrefElement(dom)?.innerText || '';
 }
+
+// 获取媒体查询队列
+const getMedicaQueryQuerues = () => {
+  return {
+    xs: '(min-width: 0)',
+    sm: '(min-width: 576px)',
+    md: '(min-width: 768px)',
+    lg: '(min-width: 992px)',
+    xl: '(min-width: 1200px)',
+    xxl: '(min-width: 1600px)',
+  };
+};
 
 // 查找元素的第一个可滚动父元素
 export function findFirstScrollableParent(element?: HTMLElement) {
