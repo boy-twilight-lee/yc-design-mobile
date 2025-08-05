@@ -1,108 +1,13 @@
 {
-  "name": "yc-design-mobile",
-  "private": false,
-  "version": "1.0.1",
-  "type": "module",
-  "description": "A Vue 3 mobile component library.",
-  "keywords": [
-    "vue",
-    "vue3",
-    "ui",
-    "mobile",
-    "components",
-    "yc-ui-mobile"
-  ],
-  "author": "2429162154@qq.com",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/boy-twilight-lee/yc-ui-mobile"
-  },
-  "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "release": "vite build && npm publish",
-    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
-    "format": "npx prettier --write --loglevel warn 'src/**/*.{js,ts,json,tsx,css,less,vue,html,md}'"
-  },
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
-  "files": [
-    "es",
-    "lib",
-    "dist"
-  ],
-  "exports": {
-    ".": {
-      "types": "./es/index.d.ts",
-      "import": "./es/index.js",
-      "require": "./lib/index.js"
-    },
-    "./es": {
-      "types": "./es/index.d.ts",
-      "import": "./es/index.js"
-    },
-    "./lib": {
-      "types": "./lib/index.d.ts",
-      "require": "./lib/index.js"
-    },
-    "./es/*": {
-      "types": "./es/*.d.ts",
-      "import": "./es/*"
-    },
-    "./lib/*": {
-      "types": "./lib/*.d.ts",
-      "require": "./lib/*"
-    },
-    "./dist/style.css": "./dist/style.css"
-  },
-  "dependencies": {
-    "@vueuse/core": "^12.0.0",
-    "dayjs": "^1.11.11",
-    "hammerjs": "^2.0.8",
-    "nanoid": "^5.1.2"
-  },
-  "devDependencies": {
-    "@types/hammerjs": "^2.0.46",
-    "@types/node": "^20.12.8",
-    "@types/tinycolor2": "^1.4.6",
-    "@typescript-eslint/eslint-plugin": "^7.11.0",
-    "@typescript-eslint/parser": "^7.11.0",
-    "@vitejs/plugin-vue": "^4.6.2",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-vue": "^9.26.0",
-    "husky": "^9.1.7",
-    "less": "^4.4.0",
-    "lint-staged": "^15.5.2",
-    "postcss-px-to-viewport-8-plugin": "^1.2.5",
-    "prettier": "^3.6.2",
-    "terser": "^5.43.1",
-    "typescript": "^5.5.3",
-    "unplugin-auto-import": "^0.17.8",
-    "unplugin-vue-components": "^0.27.5",
-    "vant": "^4.9.21",
-    "vite": "^5.4.1",
-    "vite-plugin-dts": "^4.5.4",
-    "vue": "^3.3.4",
-    "vue-router": "^4.5.1",
-    "vue-tsc": "^2.0.29"
-  },
-  "peerDependencies": {
-    "vue": "^3.3.4"
-  },
-  "lint-staged": {
-    "*.{vue,ts,tsx}": [
-      "npm run format",
-      "npm run lint"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+    "name": "@varco/monorepo",
+    "type": "module",
+    "version": "0.0.1",
+    "private": true,
+    "license": "Apache",
+    "scripts": {
+        "docs:dev": "pnpm --filter docs dev",
+        "play:dev": "pnpm --filter play dev",
+        "build:core": "pnpm --filter core build",
+        "dev": "pnpm run build:core && pnpm -r --parallel run dev"
     }
-  }
 }

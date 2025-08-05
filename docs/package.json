@@ -1,0 +1,17 @@
+{
+  "name": "@varco/docs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "@varco/core": "workspace:*"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}
