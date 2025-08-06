@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <yc-button @click="visible = true">测试</yc-button>
+    <yc-tooltip>
+      <yc-button>测试</yc-button>
+      <template #content> 测试 </template>
+    </yc-tooltip>
+
     <yc-floating-popup v-model:visible="visible" :anchors="[0.3, 0.7]">
     </yc-floating-popup>
   </div>
@@ -13,6 +17,7 @@ const visible = ref<boolean>(false);
 
 <style lang="less" scoped>
 .container {
+  position: relative;
   overflow: hidden;
   height: 100%;
   width: 100%;
