@@ -3,7 +3,7 @@
     <yc-button
       @click="
         $message.open({
-          content: 'dsada',
+          content: 'dsadadsadadsadadsadadsadadsadadsadadsadadsadadsada',
           position: 'top',
         })
       "

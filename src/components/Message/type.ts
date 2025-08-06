@@ -1,5 +1,5 @@
-import { CSSProperties } from 'vue';
-import { ClassName, RenderContent } from '@shared/type';
+import { CSSProperties, RenderFunction } from 'vue';
+import { ClassName } from '@shared/type';
 
 export interface MessageProps {
   duration?: number;
@@ -7,7 +7,7 @@ export interface MessageProps {
   position?: MessagePosition;
   className?: ClassName;
   style?: CSSProperties;
-  icon?: RenderContent;
+  icon?: RenderFunction;
   beforeClose?: () => void;
   close?: () => void;
   afterClose?: () => void;

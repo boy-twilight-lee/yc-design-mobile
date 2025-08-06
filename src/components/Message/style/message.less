@@ -2,7 +2,6 @@
   z-index: 9999;
   position: fixed;
   left: 50%;
-  max-width: 70%;
   padding: 8px 12px;
   border-radius: 4px;
   background: rgba(13, 16, 20, 0.8);
@@ -22,29 +21,27 @@
     font-family: 'PingFang SC';
     font-size: 14px;
     font-weight: 400;
+    word-break: break-all;
+    line-height: 1.5;
   }
 }
 
 @position: {
-  top: 100px;
+  top: 40px;
   center: 50%;
-  bottom: 100px;
+  bottom: 40px;
 };
 
 each(@position,{
     .yc-message-@{key}{
-        & when(@key = top){
-            top: @value;
+        & when(@key = top),(@key = bottom){
+            @{key}: @value;
             transform: translate(-50%,0);
         }
         & when(@key = center){
             left: @value;
             top: @value;
             transform: translate(-50%,-50%);
-        }
-        & when(@key = bottom){
-            bottom: @value;
-            transform: translate(-50%,0);
         }
     }
 })
