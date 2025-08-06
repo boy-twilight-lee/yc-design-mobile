@@ -44,7 +44,7 @@ export default (params: {
   // 处理关闭
   const handleClose = async (
     type: CloseEventType,
-    ev: MouseEvent | KeyboardEvent,
+    ev: MouseEvent,
     emitCancel: boolean = true
   ) => {
     if (onBeforeCancel && onBeforeOk) {

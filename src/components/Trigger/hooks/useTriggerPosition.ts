@@ -1,4 +1,4 @@
-import { watch, computed, CSSProperties, Ref, ref, toRefs } from 'vue';
+import { watch, computed, CSSProperties, Ref, toRefs } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import { TriggerProps } from '../type';
 import { Props, RequiredDeep } from '@shared/type';
@@ -13,13 +13,11 @@ export default (params: {
   computedVisible: Ref<boolean>;
 }) => {
   const { props, computedVisible, popupRef, triggerRef, arrowRef } = params;
-  // 解构需要使用的属性
   const {
     popupTranslate,
     popupOffset,
     autoFitPopupMinWidth,
     autoFitPopupWidth,
-    showArrow,
     zIndex,
     position,
     arrowStyle: _arrowStyle,
@@ -33,8 +31,14 @@ export default (params: {
       box: 'border-box',
     }
   );
-  // 获取arrow的size
-  const { arrowWidth, arrowHeight } = getArrowSize();
+  // 记牌器arrow的size
+  const { width: arrowWidth, height: arrowHeight } = useElementSize(
+    arrowRef,
+    undefined,
+    {
+      box: 'border-box',
+    }
+  );
   // 获取trigger元素bounding
   const {
     left,
@@ -144,23 +148,6 @@ export default (params: {
       ..._arrowStyle.value,
     } as CSSProperties;
   });
-  // 获取arrow的size
-  function getArrowSize() {
-    if (!showArrow.value) {
-      return {
-        arrowWidth: ref(0),
-        arrowHeight: ref(0),
-      };
-    }
-    // 获取arrow的size
-    const { width, height } = useElementSize(arrowRef, undefined, {
-      box: 'border-box',
-    });
-    return {
-      arrowWidth: width,
-      arrowHeight: height,
-    };
-  }
   // 强制重新获取位置
   watch(
     () => computedVisible.value,

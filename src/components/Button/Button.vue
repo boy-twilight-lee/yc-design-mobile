@@ -11,7 +11,11 @@
     @contextmenu="handleEvent('contextmenu', $event)"
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
-      <yc-spin v-if="loading" is-size-inherit />
+      <icon-loading
+        v-if="loading"
+        :size="size == 'mini' ? 12 : 14"
+        :stroke-color="type == 'primary' ? '#fff' : 'rgb(22, 93, 255)'"
+      />
       <slot v-else name="icon" />
     </span>
     <slot />
@@ -29,7 +33,11 @@
     @contextmenu="handleEvent('contextmenu', $event)"
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
-      <yc-loading v-if="loading" is-size-inherit />
+      <icon-loading
+        v-if="loading"
+        :size="size == 'mini' ? 12 : 14"
+        :stroke-color="type == 'primary' ? '#fff' : 'rgb(22, 93, 255)'"
+      />
       <slot v-else name="icon" />
     </span>
     <slot />
@@ -39,14 +47,13 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
-import YcLoading from '@/components/Loading';
+import IconLoading from '../Loading';
 defineOptions({
   name: 'Button',
 });
 defineSlots<ButtonSlots>();
 const props = withDefaults(defineProps<ButtonProps>(), {
-  type: 'secondary',
-  status: 'normal',
+  type: 'primary',
   size: 'medium',
   shape: 'square',
   disabled: false,
@@ -56,7 +63,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   href: '',
 });
 const emits = defineEmits<ButtonEmits>();
-const { loading, disabled, type, status, shape, size, long } = toRefs(props);
+const { loading, disabled, type, shape, size, long } = toRefs(props);
 // slots
 const slots = useSlots();
 // class-name
@@ -65,7 +72,6 @@ const className = computed(() => {
     'yc-button',
     `yc-button-size-${size.value}`,
     `yc-button-${type.value}`,
-    `yc-button-status-${status.value}`,
     `yc-button-shape-${shape.value}`,
     {
       'yc-button-long': long.value,

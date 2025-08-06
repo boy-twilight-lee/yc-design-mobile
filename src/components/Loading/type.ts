@@ -1,10 +1,10 @@
 export interface LoadingProps {
   size?: number;
-  loading?: boolean;
+  type?: LoadingType;
+  stroke?: number;
+  strokeColor?: string;
+  strokeCount?: number;
   tip?: string;
-  hideIcon?: boolean;
-  // 是否size继承
-  isSizeInherit?: boolean;
 }
 
 export interface LoadingSlots {
@@ -12,3 +12,5 @@ export interface LoadingSlots {
   icon(): void;
   tip(): void;
 }
+
+export type LoadingType = 'arc' | 'circle' | 'spin';

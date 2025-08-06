@@ -1,10 +1,7 @@
 <template>
   <div class="container">
-    <yc-tooltip>
-      <yc-button>测试</yc-button>
-      <template #content> 测试 </template>
-    </yc-tooltip>
-
+    <yc-button loading>测试</yc-button>
+    <yc-loading type="spin" />
     <yc-floating-popup v-model:visible="visible" :anchors="[0.3, 0.7]">
     </yc-floating-popup>
   </div>
@@ -12,6 +9,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+
 const visible = ref<boolean>(false);
 </script>
 
@@ -23,6 +21,7 @@ const visible = ref<boolean>(false);
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 </style>

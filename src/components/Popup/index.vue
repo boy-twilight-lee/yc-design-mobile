@@ -36,7 +36,7 @@
       />
       <!-- popup -->
       <transition
-        :name="`slide-drawer-${placement}`"
+        :name="`slide-popup-${placement}`"
         @before-enter="$emit('before-open')"
         @before-leave="$emit('before-close')"
         @after-enter="$emit('open')"

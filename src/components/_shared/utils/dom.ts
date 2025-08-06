@@ -13,20 +13,18 @@ export const isServerRendering = (() => {
 // 查询
 export const querySelector = (
   selectors: string,
-  container?: Document | HTMLElement
+  container: Document | HTMLElement = document
 ) => {
   if (isServerRendering) {
-    return undefined;
+    return;
   }
-  return (
-    (container ?? document).querySelector<HTMLElement>(selectors) ?? undefined
-  );
+  return container?.querySelector<HTMLElement>(selectors) ?? undefined;
 };
 
 // 获取html元素
 export const getElement = (
   target: string | HTMLElement | undefined,
-  container?: Document | HTMLElement
+  container: Document | HTMLElement = document
 ): HTMLElement | undefined => {
   if (isString(target)) {
     const selector = target[0] === '#' ? `[id='${target.slice(1)}']` : target;
@@ -36,9 +34,9 @@ export const getElement = (
 };
 
 // 提取 DOM 元素内所有文本内容
-export function getDomText(dom: Ref<HTMLElement | undefined>): string {
+export const getInnerText = (dom: Ref<HTMLElement | undefined>) => {
   return unrefElement(dom)?.innerText || '';
-}
+};
 
 // 测量domsize
 export const measureDomSize = (style: CSSProperties) => {

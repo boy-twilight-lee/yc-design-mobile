@@ -2,7 +2,13 @@
   <div class="yc-loading">
     <div :class="['yc-loading-icon']">
       <slot name="icon">
-        <icon-loading :size="isSizeInherit ? undefined : size" />
+        <component
+          :is="getIcon()"
+          :size="size"
+          :stroke="stroke"
+          :stroke-color="strokeColor"
+          :stroke-count="strokeCount"
+        />
       </slot>
     </div>
     <div v-if="tip" class="yc-loading-tip">
@@ -15,18 +21,30 @@
 
 <script lang="ts" setup>
 import { LoadingProps, LoadingSlots } from './type';
-import { IconLoading } from '@shared/icons';
+import IconLoadingArc from './component/IconLoadingArc.vue';
+import IconLoadingCircle from './component/IconLoadingCircle.vue';
+import IconLoadingSpin from './component/IconLoadingSpin.vue';
 defineOptions({
   name: 'Loading',
 });
 defineSlots<LoadingSlots>();
-withDefaults(defineProps<LoadingProps>(), {
+const props = withDefaults(defineProps<LoadingProps>(), {
   size: 20,
-  loading: false,
+  type: 'circle',
+  stroke: 2,
+  strokeColor: '#165dff',
+  strokeCount: 8,
   tip: '',
-  hideIcon: false,
-  isSizeInherit: false,
 });
+// 获取icon
+const getIcon = () => {
+  const map = {
+    arc: IconLoadingArc,
+    circle: IconLoadingCircle,
+    spin: IconLoadingSpin,
+  };
+  return map[props.type] || IconLoadingCircle;
+};
 </script>
 
 <style lang="less" scoped>

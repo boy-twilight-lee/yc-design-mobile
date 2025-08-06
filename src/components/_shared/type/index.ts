@@ -1,12 +1,8 @@
-import { RenderFunction } from 'vue';
+import { Reactive, RenderFunction } from 'vue';
 
 export type Size = 'mini' | 'small' | 'medium' | 'large';
 
 export type Direction = 'vertical' | 'horizontal';
-
-export type Theme = 'light' | 'dark';
-
-export type TargetContainer = string | HTMLElement;
 
 export type PopupContainer = string | HTMLElement;
 
@@ -17,7 +13,7 @@ export type ClassName =
 
 export type RenderContent = string | ObjectData[] | RenderFunction;
 
-export type Props = ObjectData;
+export type Props = Reactive<Record<string, any>>;
 
 export type ObjectData = Record<string, any>;
 

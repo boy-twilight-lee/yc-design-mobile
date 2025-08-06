@@ -3,7 +3,6 @@ import { Size } from '@shared/type';
 export interface ButtonProps {
   type?: ButtonType;
   shape?: ButtonShape;
-  status?: ButtonStatus;
   size?: Size;
   long?: boolean;
   loading?: boolean;
@@ -25,24 +24,6 @@ export interface ButtonSlots {
   icon(): void;
 }
 
-export interface ButtonGroupProps {
-  type?: ButtonType;
-  status?: ButtonStatus;
-  shape?: ButtonShape;
-  size?: Size;
-  disabled?: boolean;
-}
-
-export interface ButtonGroupSlots {
-  default(): void;
-}
-
-export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
 export type ButtonShape = 'square' | 'circle' | 'round';
-export type ButtonType =
-  | 'primary'
-  | 'secondary'
-  | 'dashed'
-  | 'outline'
-  | 'text';
+export type ButtonType = 'primary' | 'outline' | 'text';
 export type ButtonHtmlType = 'button' | 'reset' | 'submit';
