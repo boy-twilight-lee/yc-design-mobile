@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <yc-button>测试</yc-button>
+    <yc-button @click="visible = true">测试</yc-button>
     <yc-loading type="spin" />
-    <yc-floating-popup v-model:visible="visible" :anchors="[0.3, 0.7]">
-    </yc-floating-popup>
+    <yc-popup-swiper v-model:visible="visible" :anchors="[0.3, 0.7]">
+    </yc-popup-swiper>
   </div>
 </template>
 

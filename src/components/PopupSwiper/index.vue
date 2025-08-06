@@ -14,10 +14,10 @@
       <div
         v-show="visible"
         :class="[
-          'yc-floating-popup',
+          'yc-floating-swiper',
           popupClass as string,
           {
-            'yc-floating-popup-round': round,
+            'yc-floating-swiper-round': round,
           },
         ]"
         :style="{
@@ -26,28 +26,28 @@
         }"
         ref="containerRef"
       >
-        <div class="yc-floating-popup-header" ref="headerRef">
+        <div class="yc-floating-swiper-header" ref="headerRef">
           <!--  header-left -->
           <div
             v-if="$slots['header-left']"
-            class="yc-floating-popup-header-left"
+            class="yc-floating-swiper-header-left"
             @click="(e) => $emit('header-left-click', e)"
           >
             <slot name="header-left" />
           </div>
           <!-- title -->
-          <div class="yc-floating-popup-header-title">
+          <div class="yc-floating-swiper-header-title">
             <slot name="title">
               <template v-if="title">
                 {{ title }}
               </template>
-              <span class="yc-floating-popup-header-bar"></span>
+              <span class="yc-floating-swiper-header-bar"></span>
             </slot>
           </div>
           <!-- header-right -->
           <div
             v-if="$slots['header-right'] || closeable"
-            class="yc-floating-popup-header-right"
+            class="yc-floating-swiper-header-right"
             @click="computedVisible = false"
           >
             <slot name="header-right">
@@ -56,10 +56,10 @@
           </div>
         </div>
         <!-- body -->
-        <div class="yc-floating-popup-body">
+        <div class="yc-floating-swiper-body">
           <slot />
         </div>
-        <div v-if="$slots.footer" class="yc-floating-popup-footer">
+        <div v-if="$slots.footer" class="yc-floating-swiper-footer">
           <slot name="footer" />
         </div>
       </div>
@@ -69,20 +69,16 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch } from 'vue';
-import {
-  FloatingPopupProps,
-  FloatingPopupEmits,
-  FloatingPopupSlots,
-} from './type';
+import { PopupSwiperProps, PopupSwiperEmits, PopupSwiperSlots } from './type';
 import { useControlValue, sleep, useTouch, valueToPx } from '@shared/utils';
 import IconClose from './component/IconClose.vue';
 import YcPopup from '@/components/Popup';
 defineOptions({
-  name: 'FloatingPopup',
+  name: 'PopupSwiper',
   inheritAttrs: false,
 });
-defineSlots<FloatingPopupSlots>();
-const props = withDefaults(defineProps<FloatingPopupProps>(), {
+defineSlots<PopupSwiperSlots>();
+const props = withDefaults(defineProps<PopupSwiperProps>(), {
   visible: undefined,
   defaultVisible: false,
   overlay: true,
@@ -103,7 +99,7 @@ const props = withDefaults(defineProps<FloatingPopupProps>(), {
   durations: 200,
   contentDraggable: true,
 });
-const emits = defineEmits<FloatingPopupEmits>();
+const emits = defineEmits<PopupSwiperEmits>();
 // visible
 const {
   visible,
@@ -182,5 +178,5 @@ watch(
 </script>
 
 <style lang="less">
-@import './style/floating-popup.less';
+@import './style/popup-swiper.less';
 </style>

@@ -1,6 +1,6 @@
 import { App, Plugin } from 'vue';
 import Button from './Button';
-import FloatingPopup from './FloatingPopup';
+import PopupSwiper from './PopupSwiper';
 import Popup from './Popup';
 import Popover from './Popover';
 import Dialog from './Dialog';
@@ -12,10 +12,10 @@ import Tooltip from './Tooltip';
 const components: Record<string, Plugin> = {
   Button,
   Dialog,
-  FloatingPopup,
   Loading,
   Overlay,
   Popup,
+  PopupSwiper,
   Popover,
   Trigger,
   Tooltip,

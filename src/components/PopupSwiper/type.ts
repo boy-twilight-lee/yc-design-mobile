@@ -1,6 +1,6 @@
 import { CSSProperties } from 'vue';
 import { ClassName, PopupContainer } from '@shared/type';
-export interface FloatingPopupProps {
+export interface PopupSwiperProps {
   visible?: boolean;
   defaultVisible?: boolean;
   overlay?: boolean;
@@ -22,7 +22,7 @@ export interface FloatingPopupProps {
   contentDraggable?: boolean;
 }
 
-export interface FloatingPopupSlots {
+export interface PopupSwiperSlots {
   default(): void;
   title(): void;
   ['header-left'](): void;
@@ -30,7 +30,7 @@ export interface FloatingPopupSlots {
   footer(): void;
 }
 
-export interface FloatingPopupEmits {
+export interface PopupSwiperEmits {
   (e: 'update:visible', value: boolean): void;
   (e: 'overlay-click', ev: MouseEvent): void;
   (e: 'header-left-click', ev: MouseEvent): void;
