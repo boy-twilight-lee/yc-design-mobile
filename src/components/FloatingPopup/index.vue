@@ -31,6 +31,7 @@
           <div
             v-if="$slots['header-left']"
             class="yc-floating-popup-header-left"
+            @click="(e) => $emit('header-left-click', e)"
           >
             <slot name="header-left" />
           </div>

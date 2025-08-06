@@ -17,11 +17,12 @@
         ...($attrs.style ?? {}),
       }"
     >
+      <!-- overlay -->
       <yc-overlay
         v-if="overlay"
         v-model:visible="innerVisible"
         :z-index="0"
-        :overlay-class="['yc-popup-overlay', overlayClass as string]"
+        :overlay-class="overlayClass"
         :overlay-style="{
           position: 'absolute',
           ...overlayStyle,
@@ -33,7 +34,7 @@
           }
         "
       />
-      <!-- drawer -->
+      <!-- popup -->
       <transition
         :name="`slide-drawer-${placement}`"
         @before-enter="$emit('before-open')"
@@ -45,7 +46,15 @@
           <div
             v-show="innerVisible"
             :class="['yc-popup', popupClass]"
-            :style="popupStyle"
+            :style="{
+              height: ['left', 'right'].includes(placement)
+                ? '100%'
+                : valueToPx(height),
+              width: ['left', 'right'].includes(placement)
+                ? valueToPx(width)
+                : `100%`,
+              ...popupStyle,
+            }"
           >
             <slot />
           </div>
@@ -56,10 +65,11 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, CSSProperties } from 'vue';
+import { toRefs } from 'vue';
 import { PopupProps, PopupEmits, PopupSlots } from './type';
 import { valueToPx, isUndefined } from '@shared/utils';
 import usePopupClose from '@/components/Dialog/hooks/useDialogClose';
+import YcOverlay from '@/components/Overlay';
 defineOptions({
   name: 'Popup',
   inheritAttrs: false,
@@ -86,31 +96,8 @@ const props = withDefaults(defineProps<PopupProps>(), {
   popupContainer: undefined,
 });
 const emits = defineEmits<PopupEmits>();
-const {
-  visible,
-  defaultVisible,
-  width,
-  height,
-  placement,
-  overlayClosable,
-  lockScroll,
-  popupStyle: _popupStyle,
-} = toRefs(props);
-// drawer绝对定位的left,top
-const popupStyle = computed(() => {
-  return {
-    height:
-      placement.value == 'left' || placement.value == 'right'
-        ? '100%'
-        : valueToPx(height.value),
-    width:
-      placement.value == 'left' || placement.value == 'right'
-        ? valueToPx(width.value)
-        : `100%`,
-    // 传入样式
-    ..._popupStyle.value,
-  } as CSSProperties;
-});
+const { visible, defaultVisible, placement, overlayClosable, lockScroll } =
+  toRefs(props);
 // 处理组件关闭开启
 const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
   usePopupClose({

@@ -15,7 +15,7 @@
         v-if="overlay"
         v-model:visible="innerVisible"
         :z-index="0"
-        :overlay-class="['yc-dialog-overlay', overlayClass as string]"
+        :overlay-class="overlayClass"
         :overlay-style="{
           position: 'absolute',
           ...overlayStyle,
