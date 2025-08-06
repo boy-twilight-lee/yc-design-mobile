@@ -1,6 +1,6 @@
 import { App, h, render } from 'vue';
 import _Message from './index.vue';
-import { MessageConfig, MessageMethod } from './type';
+import { MessageConfig } from './type';
 import { isString } from '@shared/utils';
 
 export type MessageInstance = InstanceType<typeof _Message>;
@@ -19,7 +19,9 @@ const open = (props: MessageConfig) => {
   const close = () => {
     render(null, container);
   };
+  // 创建message
   const message = isString(props) ? { content: props } : { ...props };
+  // 创建vnode
   const vnode = h(_Message, {
     ...message,
     afterClose: close,
@@ -30,18 +32,12 @@ const open = (props: MessageConfig) => {
     close,
   };
 };
-// messageMethod
-const messageMethod = {
-  open,
-} as MessageMethod;
+
 const Message = Object.assign(_Message, {
   install: (app: App) => {
-    app.config.globalProperties.$message = Object.assign(
-      _Message,
-      messageMethod
-    );
+    app.config.globalProperties.$message = Object.assign(_Message, { open });
   },
-  ...messageMethod,
+  open,
 });
 
 declare module 'vue' {

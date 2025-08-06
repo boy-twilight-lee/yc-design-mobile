@@ -1,9 +1,7 @@
-.yc-message-box {
+.yc-message {
   z-index: 9999;
   position: fixed;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   max-width: 70%;
   padding: 8px 12px;
   border-radius: 4px;
@@ -12,18 +10,41 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-
-  .yc-message-box-icon {
+  .yc-message-icon {
     margin-right: 4px;
     font-size: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .yc-message-box-content {
+  .yc-message-content {
     color: #fff;
     font-family: 'PingFang SC';
     font-size: 14px;
     font-weight: 400;
   }
 }
+
+@position: {
+  top: 100px;
+  center: 50%;
+  bottom: 100px;
+};
+
+each(@position,{
+    .yc-message-@{key}{
+        & when(@key = top){
+            top: @value;
+            transform: translate(-50%,0);
+        }
+        & when(@key = center){
+            left: @value;
+            top: @value;
+            transform: translate(-50%,-50%);
+        }
+        & when(@key = bottom){
+            bottom: @value;
+            transform: translate(-50%,0);
+        }
+    }
+})

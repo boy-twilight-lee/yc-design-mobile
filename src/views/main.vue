@@ -4,6 +4,7 @@
       @click="
         $message.open({
           content: 'dsada',
+          position: 'top',
         })
       "
       >测试</yc-button
