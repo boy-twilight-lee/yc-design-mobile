@@ -21,7 +21,7 @@
           },
         ]"
         :style="{
-          inset: `${valueToPx(top)} 0 0 0`,
+          inset,
           ...popupStyle,
         }"
         ref="containerRef"
@@ -140,35 +140,38 @@ const maxHeight = computed(() => {
     : anchors.value[1];
 });
 // dawerHeight
-const top = ref<number>(0);
+const height = ref<number>(0);
+// inset
+const inset = computed(() => {
+  return `${valueToPx(window.innerHeight - height.value)} 0 0 0`;
+});
 // 处理拖动
 useTouch(triggerRef, {
   onStart() {
     containerRef.value!.style.transition = 'none';
   },
   onMove({ y }) {
-    top.value += y;
-    emits('position-change', top.value);
+    height.value -= y;
+    emits('position-change', height.value);
   },
   onEnd: async () => {
-    const height = window.innerHeight - top.value;
-    if (height < minHeight.value) {
+    const style = containerRef.value!.style;
+    if (height.value < minHeight.value) {
       computedVisible.value = false;
     }
-    if (height > maxHeight.value) {
-      top.value = window.innerHeight - maxHeight.value;
-      containerRef.value!.style.transition = `top ${durations.value / 1000}s cubic-bezier(0.34, 1.56, 0.64, 1)`;
+    if (height.value > maxHeight.value || fixedHeight.value) {
+      height.value = fixedHeight.value ? minHeight.value : maxHeight.value;
+      style.transition = `top ${durations.value / 1000}s cubic-bezier(0.34, 1.56, 0.64, 1)`;
       await sleep(durations.value);
     }
-    containerRef.value!.style.transition = '';
+    style.transition = '';
   },
 });
 // 检测
 watch(
   () => computedVisible.value,
-  async (val) => {
-    if (!val) return;
-    top.value = window.innerHeight - minHeight.value;
+  () => {
+    height.value = minHeight.value;
   },
   {
     immediate: true,
