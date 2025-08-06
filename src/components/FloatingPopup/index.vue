@@ -27,14 +27,14 @@
         ref="containerRef"
       >
         <div class="yc-floating-popup-header" ref="headerRef">
+          <!--  header-left -->
           <div
-            v-if="$slots['header-left'] || headerLeftText"
+            v-if="$slots['header-left']"
             class="yc-floating-popup-header-left"
           >
-            <slot name="header-left">
-              {{ headerLeftText }}
-            </slot>
+            <slot name="header-left" />
           </div>
+          <!-- title -->
           <div class="yc-floating-popup-header-title">
             <slot name="title">
               <template v-if="title">
@@ -43,6 +43,7 @@
               <span class="yc-floating-popup-header-bar"></span>
             </slot>
           </div>
+          <!-- header-right -->
           <div
             v-if="$slots['header-right'] || closeable"
             class="yc-floating-popup-header-right"
@@ -53,6 +54,7 @@
             </slot>
           </div>
         </div>
+        <!-- body -->
         <div class="yc-floating-popup-body">
           <slot />
         </div>
@@ -94,7 +96,6 @@ const props = withDefaults(defineProps<FloatingPopupProps>(), {
   unmountOnClose: false,
   popupContainer: undefined,
   title: '',
-  headerLeftText: '',
   closeable: true,
   fixedHeight: false,
   anchors: () => [0.6, 0.9],

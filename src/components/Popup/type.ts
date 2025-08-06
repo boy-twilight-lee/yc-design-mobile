@@ -10,13 +10,13 @@ export interface PopupProps {
   maskClosable?: boolean;
   popupClass?: ClassName;
   popupStyle?: CSSProperties;
+  popupContainer?: PopupContainer;
   round?: boolean;
   zIndex?: number;
   lockScroll?: boolean;
   unmountOnClose?: boolean;
   width?: number | string;
   height?: number | string;
-  popupContainer?: PopupContainer;
 }
 
 export interface PopupSlots {

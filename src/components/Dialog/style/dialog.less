@@ -1,15 +1,15 @@
-.yc-modal-container {
+.yc-dialog-container {
   overflow: hidden;
   position: fixed;
   inset: 0 0 0 0;
 
-  .yc-modal-wrapper {
+  .yc-dialog-wrapper {
     position: absolute;
     inset: 0 0 0 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    .yc-modal {
+    .yc-dialog {
       overflow: hidden;
       border-radius: 16px;
       background-color: #fff;
@@ -17,12 +17,12 @@
       display: flex;
       flex-direction: column;
 
-      &.yc-modal-has-title {
-        .yc-modal-body {
+      &.yc-dialog-has-title {
+        .yc-dialog-body {
           padding-top: 8px;
         }
       }
-      .yc-modal-header {
+      .yc-dialog-header {
         height: 48px;
         width: 100%;
         padding: 0 20px;
@@ -36,13 +36,13 @@
           text-align: center;
         }
       }
-      .yc-modal-body {
+      .yc-dialog-body {
         padding: 26px 24px;
         color: rgb(29, 33, 41);
         font-size: 14px;
         line-height: 1.5715;
       }
-      .yc-modal-footer {
+      .yc-dialog-footer {
         height: 46px;
         width: 100%;
         border-top: 1px solid #edf0f7;
@@ -57,11 +57,11 @@
             height: 16px;
             width: 16px;
           }
-          &.yc-modal-cancel-button {
+          &.yc-dialog-cancel-button {
             border-right: 1px solid #edf0f7;
             color: #474f59;
           }
-          &.yc-modal-ok-button {
+          &.yc-dialog-ok-button {
             color: #2663ff;
           }
         }

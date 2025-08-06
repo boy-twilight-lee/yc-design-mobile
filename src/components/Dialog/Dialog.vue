@@ -3,7 +3,7 @@
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
-      :class="['yc-modal-container', $attrs.class]"
+      :class="['yc-dialog-container', $attrs.class]"
       :style="{
         position: isUndefined(popupContainer) ? 'fixed' : 'absolute',
         zIndex,
@@ -14,16 +14,16 @@
         v-if="mask"
         v-model:visible="innerVisible"
         :z-index="0"
-        :mask-class="['yc-modal-mask', maskClass as unknown as string]"
+        :mask-class="['yc-dialog-mask', maskClass as unknown as string]"
         :mask-style="{
           position: 'absolute',
           ...maskStyle,
         }"
         :mask-animation-name="maskAnimationName"
       />
-      <!-- modal -->
+      <!-- dialog -->
       <transition
-        :name="modalAnimationName"
+        :name="dialogAnimationName"
         @before-enter="$emit('before-open')"
         @before-leave="$emit('before-close')"
         @after-enter="$emit('open')"
@@ -31,41 +31,41 @@
       >
         <div
           v-show="innerVisible"
-          class="yc-modal-wrapper"
+          class="yc-dialog-wrapper"
           @click.self="handleClose('mask', $event)"
         >
           <div
             :class="[
-              'yc-modal',
-              modalClass,
+              'yc-dialog',
+              dialogClass,
               {
-                'yc-modal-has-title': title || $slots.header,
+                'yc-dialog-has-title': title || $slots.header,
               },
             ]"
             :style="{
               width: valueToPx(width),
-              ...modalStyle,
+              ...dialogStyle,
             }"
           >
             <!-- header -->
             <slot v-if="title || $slots.header" name="header">
-              <div class="yc-modal-header">
+              <div class="yc-dialog-header">
                 <span class="text-ellipsis">
                   {{ title }}
                 </span>
               </div>
             </slot>
             <!-- body -->
-            <div class="yc-modal-body" :class="bodyClass" :style="bodyStyle">
+            <div class="yc-dialog-body" :class="bodyClass" :style="bodyStyle">
               <slot />
             </div>
             <!-- footer -->
             <slot v-if="$slots.footer || !hideCancel || !hideOk" name="footer">
-              <div class="yc-modal-footer">
+              <div class="yc-dialog-footer">
                 <yc-button
                   v-if="!hideCancel"
                   type="text"
-                  class="yc-modal-cancel-button"
+                  class="yc-dialog-cancel-button"
                   v-bind="cancelButtonProps"
                   @click="handleClose('cancelBtn', $event)"
                 >
@@ -74,7 +74,7 @@
                 <yc-button
                   v-if="!hideOk"
                   type="text"
-                  class="yc-modal-ok-button"
+                  class="yc-dialog-ok-button"
                   :loading="asyncLoading"
                   v-bind-="okButtonProps"
                   @click="handleClose('confirmBtn', $event)"
@@ -92,17 +92,17 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { ModalProps, ModalEmits, ModalSlots } from './type';
+import { DialogProps, DialogEmits, DialogSlots } from './type';
 import { valueToPx, isUndefined } from '@shared/utils';
-import useModalClose from './hooks/useModalClose';
+import useDialogClose from './hooks/useDialogClose';
 import YcMask from '../Mask';
 import YcButton from '../Button';
 defineOptions({
-  name: 'Modal',
+  name: 'Dialog',
   inheritAttrs: false,
 });
-defineSlots<ModalSlots>();
-const props = withDefaults(defineProps<ModalProps>(), {
+defineSlots<DialogSlots>();
+const props = withDefaults(defineProps<DialogProps>(), {
   visible: undefined,
   defaultVisible: false,
   width: 310,
@@ -121,23 +121,23 @@ const props = withDefaults(defineProps<ModalProps>(), {
   lockScroll: true,
   maskClass: '',
   maskStyle: () => ({}),
-  modalClass: '',
-  modalStyle: () => ({}),
+  dialogClass: '',
+  dialogStyle: () => ({}),
   maskAnimationName: 'fade',
-  modalAnimationName: 'zoom-modal',
+  dialogAnimationName: 'zoom-modal',
   bodyClass: '',
   bodyStyle: () => ({}),
   onBeforeCancel: () => true,
   onBeforeOk: () => true,
 });
-const emits = defineEmits<ModalEmits>();
+const emits = defineEmits<DialogEmits>();
 const {
   visible,
   defaultVisible,
   width,
   maskClosable,
   lockScroll,
-  modalStyle: _modalStyle,
+  dialogStyle: _dialogStyle,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 处理组件关闭开启
@@ -147,7 +147,7 @@ const {
   asyncLoading,
   handleClose,
   handleAfterLeave,
-} = useModalClose({
+} = useDialogClose({
   visible,
   defaultVisible,
   maskClosable,
@@ -159,5 +159,5 @@ const {
 </script>
 
 <style lang="less" scoped>
-@import './style/modal.less';
+@import './style/dialog.less';
 </style>

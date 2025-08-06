@@ -2,7 +2,7 @@ import { CSSProperties } from 'vue';
 import { RenderContent, PopupContainer, ClassName } from '@shared/type';
 import { ButtonProps } from '@/components/Button';
 
-export interface ModalProps {
+export interface DialogProps {
   visible?: boolean;
   defaultVisible?: boolean;
   width?: number | string;
@@ -21,17 +21,17 @@ export interface ModalProps {
   lockScroll?: boolean;
   maskClass?: ClassName;
   maskStyle?: CSSProperties;
-  modalClass?: ClassName;
-  modalStyle?: CSSProperties;
+  dialogClass?: ClassName;
+  dialogStyle?: CSSProperties;
   maskAnimationName?: string;
-  modalAnimationName?: string;
+  dialogAnimationName?: string;
   bodyClass?: ClassName;
   bodyStyle?: CSSProperties;
   onBeforeCancel?: OnBeforeCancel;
   onBeforeOk?: OnBeforeOk;
 }
 
-export interface ModalEmits {
+export interface DialogEmits {
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
   (e: 'cancel', ev: MouseEvent | KeyboardEvent): void;
@@ -41,13 +41,13 @@ export interface ModalEmits {
   (e: 'before-close'): void;
 }
 
-export interface ModalSlots {
+export interface DialogSlots {
   default(): void;
   header(): void;
   footer(): void;
 }
 
-export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
+export type DialogConfig = Omit<DialogProps, 'visible' | 'defaultVisible'> & {
   title?: RenderContent;
   content?: RenderContent;
   onOk?: () => void | Promise<void>;
@@ -58,25 +58,11 @@ export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
   onBeforeClose?: () => void;
 };
 
-export type ModalUpdateConfig = Omit<
-  ModalConfig,
-  | 'title'
-  | 'content'
-  | 'onOk'
-  | 'onCancel'
-  | 'onBeforeOk'
-  | 'onBeforeCancel'
-  | 'onOpen'
-  | 'onClose'
-  | 'onBeforeOpen'
-  | 'onBeforeClose'
->;
-
-export type ModalServiceProps = ModalConfig & {
+export type DialogServiceProps = DialogConfig & {
   serviceClose?: () => void;
 };
 
-export type ModalReturn = {
+export type DialogReturn = {
   close: () => void;
 };
 

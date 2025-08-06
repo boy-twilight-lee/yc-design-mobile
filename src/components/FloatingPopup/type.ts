@@ -9,13 +9,12 @@ export interface FloatingPopupProps {
   maskClosable?: boolean;
   popupClass?: ClassName;
   popupStyle?: CSSProperties;
+  popupContainer?: PopupContainer;
   round?: boolean;
   zIndex?: number;
   lockScroll?: boolean;
   unmountOnClose?: boolean;
-  popupContainer?: PopupContainer;
   title?: string;
-  headerLeftText?: string;
   closeable?: boolean;
   anchors?: number[];
   fixedHeight?: boolean;

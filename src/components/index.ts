@@ -2,7 +2,7 @@ import { App, Plugin } from 'vue';
 import Button from './Button';
 import FloatingPopup from './FloatingPopup';
 import Popup from './Popup';
-import Modal from './Modal';
+import Modal from './Dialog';
 import Mask from './Mask';
 import Spin from './Spin';
 import { useDraggable } from '@vueuse/core';

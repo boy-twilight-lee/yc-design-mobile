@@ -1,5 +1,5 @@
 <template>
-  <yc-modal
+  <yc-dialog
     v-bind="props"
     v-model:visible="visible"
     @ok="onOk?.()"
@@ -15,15 +15,15 @@
     <div class="yc-modal-body-content">
       <component :is="getSlotFunction(content)" />
     </div>
-  </yc-modal>
+  </yc-dialog>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import { ModalServiceProps } from './type';
+import { DialogServiceProps } from './type';
 import { getSlotFunction } from '@shared/utils';
-import YcModal from './Modal.vue';
-const props = withDefaults(defineProps<ModalServiceProps>(), {
+import YcDialog from './Dialog.vue';
+const props = withDefaults(defineProps<DialogServiceProps>(), {
   width: 310,
   mask: true,
   title: '',

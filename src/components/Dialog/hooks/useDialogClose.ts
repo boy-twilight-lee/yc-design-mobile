@@ -1,5 +1,5 @@
 import { ref, Ref, watch } from 'vue';
-import { ModalEmits } from '@/components/Modal/type';
+import { ModalEmits } from '@/components/Dialog/type';
 import { OnBeforeOk, OnBeforeCancel } from '../type';
 import { useControlValue } from '@shared/utils';
 import useOnBeforeClose from './useOnBeforeClose';
