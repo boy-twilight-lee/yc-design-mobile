@@ -6,6 +6,8 @@ export type Direction = 'vertical' | 'horizontal';
 
 export type PopupContainer = string | HTMLElement;
 
+export type TargetContainer = string | HTMLElement;
+
 export type ClassName =
   | string
   | Record<string, boolean>

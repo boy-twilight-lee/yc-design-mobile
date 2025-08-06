@@ -75,7 +75,7 @@ import {
   FloatingPopupSlots,
 } from './type';
 import { useControlValue, sleep, useTouch, valueToPx } from '@shared/utils';
-import { IconClose } from '@shared/icons';
+import IconClose from './component/IconClose.vue';
 import YcPopup from '@/components/Popup';
 defineOptions({
   name: 'FloatingPopup',

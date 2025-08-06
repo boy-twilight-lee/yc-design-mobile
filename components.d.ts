@@ -15,7 +15,7 @@ declare module 'vue' {
     DialogService: typeof import('./src/components/Dialog/DialogService.vue')['default']
     ExpandTransition: typeof import('./src/components/_shared/components/ExpandTransition.vue')['default']
     FloatingPopup: typeof import('./src/components/FloatingPopup/index.vue')['default']
-    IconClose: typeof import('./src/components/_shared/icons/IconClose.vue')['default']
+    IconClose: typeof import('./src/components/FloatingPopup/component/IconClose.vue')['default']
     IconLoading: typeof import('./src/components/_shared/icons/IconLoading.vue')['default']
     IconLoadingArc: typeof import('./src/components/Loading/component/IconLoadingArc.vue')['default']
     IconLoadingCircle: typeof import('./src/components/Loading/component/IconLoadingCircle.vue')['default']
