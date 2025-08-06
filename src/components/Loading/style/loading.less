@@ -1,17 +1,17 @@
-.yc-spin {
+.yc-loading {
   position: relative;
   color: rgb(22, 93, 255);
   display: inline-flex;
   flex-direction: column;
 
-  .yc-spin-icon {
-    animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
+  .yc-loading-icon {
+    animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .yc-spin-tip {
+  .yc-loading-tip {
     margin-top: 6px;
     font-weight: 500;
     font-size: 14px;
@@ -19,7 +19,7 @@
 }
 
 // 旋转
-@keyframes spin {
+@keyframes loading {
   0% {
     transform: rotate(0deg);
   }

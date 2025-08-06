@@ -1,14 +1,14 @@
 <template>
-  <transition :name="maskAnimationName">
+  <transition :name="overlayAnimationName">
     <div
       v-if="!unmountOnClose || computedVisible"
       v-show="computedVisible"
-      :class="['yc-mask', maskClass]"
+      :class="['yc-overlay', overlayClass]"
       :style="{
         zIndex,
-        ...maskStyle,
+        ...overlayStyle,
       }"
-      @click.self="$emit('click', $event)"
+      @click.self="$emit('overlay-click', $event)"
     >
       <slot />
     </div>
@@ -18,21 +18,21 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { useControlValue } from '@shared/utils';
-import { MaskProps, MaskEmits, MaskSlots } from './type';
+import { OverlayProps, OverlayEmits, OverlaySlots } from './type';
 defineOptions({
-  name: 'Mask',
+  name: 'Overlay',
 });
-defineSlots<MaskSlots>();
-const props = withDefaults(defineProps<MaskProps>(), {
+defineSlots<OverlaySlots>();
+const props = withDefaults(defineProps<OverlayProps>(), {
   visible: undefined,
   defaultVisible: false,
   zIndex: 1001,
-  maskClass: '',
-  maskStyle: () => ({}),
+  overlayClass: '',
+  overlayStyle: () => ({}),
+  overlayAnimationName: 'fade',
   unmountOnClose: false,
-  maskAnimationName: 'fade',
 });
-const emits = defineEmits<MaskEmits>();
+const emits = defineEmits<OverlayEmits>();
 const { visible, defaultVisible } = toRefs(props);
 // computedVisible
 const computedVisible = useControlValue<boolean>(
@@ -45,5 +45,5 @@ const computedVisible = useControlValue<boolean>(
 </script>
 
 <style lang="less" scoped>
-@import './style/mask.less';
+@import './style/overlay.less';
 </style>

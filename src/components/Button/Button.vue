@@ -29,7 +29,7 @@
     @contextmenu="handleEvent('contextmenu', $event)"
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
-      <yc-spin v-if="loading" is-size-inherit />
+      <yc-loading v-if="loading" is-size-inherit />
       <slot v-else name="icon" />
     </span>
     <slot />
@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
-import YcSpin from '@/components/Spin';
+import YcLoading from '@/components/Loading';
 defineOptions({
   name: 'Button',
 });

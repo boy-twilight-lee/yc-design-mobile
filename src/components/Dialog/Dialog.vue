@@ -10,16 +10,17 @@
         ...($attrs.style ?? {}),
       }"
     >
-      <yc-mask
-        v-if="mask"
+      <!-- overlay -->
+      <yc-overlay
+        v-if="overlay"
         v-model:visible="innerVisible"
         :z-index="0"
-        :mask-class="['yc-dialog-mask', maskClass as unknown as string]"
-        :mask-style="{
+        :overlay-class="['yc-dialog-overlay', overlayClass as string]"
+        :overlay-style="{
           position: 'absolute',
-          ...maskStyle,
+          ...overlayStyle,
         }"
-        :mask-animation-name="maskAnimationName"
+        :overlay-animation-name="overlayAnimationName"
       />
       <!-- dialog -->
       <transition
@@ -32,7 +33,7 @@
         <div
           v-show="innerVisible"
           class="yc-dialog-wrapper"
-          @click.self="handleClose('mask', $event)"
+          @click.self="handleClose('overlay', $event)"
         >
           <div
             :class="[
@@ -60,7 +61,7 @@
               <slot />
             </div>
             <!-- footer -->
-            <slot v-if="$slots.footer || !hideCancel || !hideOk" name="footer">
+            <slot v-if="$slots.footer || footer" name="footer">
               <div class="yc-dialog-footer">
                 <yc-button
                   v-if="!hideCancel"
@@ -72,7 +73,6 @@
                   {{ cancelText }}
                 </yc-button>
                 <yc-button
-                  v-if="!hideOk"
                   type="text"
                   class="yc-dialog-ok-button"
                   :loading="asyncLoading"
@@ -95,7 +95,7 @@ import { toRefs } from 'vue';
 import { DialogProps, DialogEmits, DialogSlots } from './type';
 import { valueToPx, isUndefined } from '@shared/utils';
 import useDialogClose from './hooks/useDialogClose';
-import YcMask from '../Mask';
+import YcOverlay from '../Overlay';
 import YcButton from '../Button';
 defineOptions({
   name: 'Dialog',
@@ -106,12 +106,12 @@ const props = withDefaults(defineProps<DialogProps>(), {
   visible: undefined,
   defaultVisible: false,
   width: 310,
-  mask: true,
+  overlay: true,
   title: '',
   unmountOnClose: false,
-  maskClosable: true,
+  overlayClosable: true,
+  footer: true,
   hideCancel: false,
-  hideOk: false,
   okText: '确定',
   cancelText: '取消',
   okButtonProps: () => ({}),
@@ -119,12 +119,12 @@ const props = withDefaults(defineProps<DialogProps>(), {
   zIndex: 1001,
   popupContainer: undefined,
   lockScroll: true,
-  maskClass: '',
-  maskStyle: () => ({}),
   dialogClass: '',
   dialogStyle: () => ({}),
-  maskAnimationName: 'fade',
   dialogAnimationName: 'zoom-modal',
+  overlayClass: '',
+  overlayStyle: () => ({}),
+  overlayAnimationName: 'fade',
   bodyClass: '',
   bodyStyle: () => ({}),
   onBeforeCancel: () => true,
@@ -135,7 +135,7 @@ const {
   visible,
   defaultVisible,
   width,
-  maskClosable,
+  overlayClosable,
   lockScroll,
   dialogStyle: _dialogStyle,
 } = toRefs(props);
@@ -150,7 +150,7 @@ const {
 } = useDialogClose({
   visible,
   defaultVisible,
-  maskClosable,
+  overlayClosable,
   lockScroll,
   onBeforeOk,
   onBeforeCancel,

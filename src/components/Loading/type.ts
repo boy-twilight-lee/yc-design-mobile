@@ -1,4 +1,4 @@
-export interface SpinProps {
+export interface LoadingProps {
   size?: number;
   loading?: boolean;
   tip?: string;
@@ -7,7 +7,7 @@ export interface SpinProps {
   isSizeInherit?: boolean;
 }
 
-export interface SpinSlots {
+export interface LoadingSlots {
   default(): void;
   icon(): void;
   tip(): void;

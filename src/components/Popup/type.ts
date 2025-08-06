@@ -4,10 +4,10 @@ export interface PopupProps {
   visible?: boolean;
   defaultVisible?: boolean;
   placement?: PopupPlacement;
-  mask?: boolean;
-  maskClass?: ClassName;
-  maskStyle?: CSSProperties;
-  maskClosable?: boolean;
+  overlay?: boolean;
+  overlayClass?: ClassName;
+  overlayStyle?: CSSProperties;
+  overlayClosable?: boolean;
   popupClass?: ClassName;
   popupStyle?: CSSProperties;
   popupContainer?: PopupContainer;
@@ -26,7 +26,7 @@ export interface PopupSlots {
 
 export interface PopupEmits {
   (e: 'update:visible', value: boolean): void;
-  (e: 'click-mask', ev: MouseEvent): void;
+  (e: 'overlay-click', ev: MouseEvent): void;
   (e: 'before-open'): void;
   (e: 'open'): void;
   (e: 'before-close'): void;

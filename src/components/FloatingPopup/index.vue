@@ -4,7 +4,7 @@
     v-model:visible="computedVisible"
     :class="$attrs.class"
     :style="$attrs.style"
-    @click-mask="(e) => $emit('click-mask', e)"
+    @overlay-click="(e) => $emit('overlay-click', e)"
     @open="$emit('open')"
     @close="$emit('close')"
     @before-open="$emit('before-open')"
@@ -84,10 +84,10 @@ defineSlots<FloatingPopupSlots>();
 const props = withDefaults(defineProps<FloatingPopupProps>(), {
   visible: undefined,
   defaultVisible: false,
-  mask: true,
-  maskClass: '',
-  maskStyle: () => ({}),
-  maskClosable: true,
+  overlay: true,
+  overlayClass: '',
+  overlayStyle: () => ({}),
+  overlayClosable: true,
   popupClass: '',
   popupStyle: () => ({}),
   round: true,

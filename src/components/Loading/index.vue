@@ -1,11 +1,11 @@
 <template>
-  <div class="yc-spin">
-    <div :class="['yc-spin-icon']">
+  <div class="yc-loading">
+    <div :class="['yc-loading-icon']">
       <slot name="icon">
         <icon-loading :size="isSizeInherit ? undefined : size" />
       </slot>
     </div>
-    <div v-if="tip" class="yc-spin-tip">
+    <div v-if="tip" class="yc-loading-tip">
       <slot name="tip">
         {{ tip }}
       </slot>
@@ -14,13 +14,13 @@
 </template>
 
 <script lang="ts" setup>
-import { SpinProps, SpinSlots } from './type';
+import { LoadingProps, LoadingSlots } from './type';
 import { IconLoading } from '@shared/icons';
 defineOptions({
-  name: 'Spin',
+  name: 'Loading',
 });
-defineSlots<SpinSlots>();
-withDefaults(defineProps<SpinProps>(), {
+defineSlots<LoadingSlots>();
+withDefaults(defineProps<LoadingProps>(), {
   size: 20,
   loading: false,
   tip: '',
@@ -30,5 +30,5 @@ withDefaults(defineProps<SpinProps>(), {
 </script>
 
 <style lang="less" scoped>
-@import './style/spin.less';
+@import './style/loading.less';
 </style>

@@ -3,10 +3,10 @@ import { ClassName, PopupContainer } from '@shared/type';
 export interface FloatingPopupProps {
   visible?: boolean;
   defaultVisible?: boolean;
-  mask?: boolean;
-  maskClass?: ClassName;
-  maskStyle?: CSSProperties;
-  maskClosable?: boolean;
+  overlay?: boolean;
+  overlayClass?: ClassName;
+  overlayStyle?: CSSProperties;
+  overlayClosable?: boolean;
   popupClass?: ClassName;
   popupStyle?: CSSProperties;
   popupContainer?: PopupContainer;
@@ -32,8 +32,8 @@ export interface FloatingPopupSlots {
 
 export interface FloatingPopupEmits {
   (e: 'update:visible', value: boolean): void;
-  (e: 'click-mask', ev: MouseEvent): void;
-  (e: 'click-header-left', ev: MouseEvent): void;
+  (e: 'overlay-click', ev: MouseEvent): void;
+  (e: 'header-left-click', ev: MouseEvent): void;
   (e: 'position-change', y: number): void;
   (e: 'before-open'): void;
   (e: 'open'): void;

@@ -1,22 +1,22 @@
 import { ref, Ref, watch } from 'vue';
-import { ModalEmits } from '@/components/Dialog/type';
+import { DialogEmits } from '@/components/Dialog/type';
 import { OnBeforeOk, OnBeforeCancel } from '../type';
 import { useControlValue } from '@shared/utils';
 import useOnBeforeClose from './useOnBeforeClose';
 
-export type CloseEventType = 'confirmBtn' | 'cancelBtn' | 'mask';
+export type CloseEventType = 'confirmBtn' | 'cancelBtn' | 'overlay';
 
 export default (params: {
   visible: Ref<boolean | undefined>;
   defaultVisible: Ref<boolean>;
-  maskClosable: Ref<boolean>;
+  overlayClosable: Ref<boolean>;
   lockScroll: Ref<boolean>;
   onBeforeOk?: OnBeforeOk;
   onBeforeCancel?: OnBeforeCancel;
-  emits: ModalEmits;
+  emits: DialogEmits;
 }) => {
   const {
-    maskClosable,
+    overlayClosable,
     visible,
     defaultVisible,
     lockScroll,
@@ -54,7 +54,7 @@ export default (params: {
         : true;
       if (!isClose) return;
     }
-    if (type == 'mask' && !maskClosable.value) {
+    if (type == 'overlay' && !overlayClosable.value) {
       return;
     }
     if (type == 'confirmBtn') {

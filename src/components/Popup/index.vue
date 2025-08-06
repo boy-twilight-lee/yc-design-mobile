@@ -17,19 +17,19 @@
         ...($attrs.style ?? {}),
       }"
     >
-      <yc-mask
-        v-if="mask"
+      <yc-overlay
+        v-if="overlay"
         v-model:visible="innerVisible"
         :z-index="0"
-        :mask-class="['yc-popup-mask', maskClass as string]"
-        :mask-style="{
+        :overlay-class="['yc-popup-overlay', overlayClass as string]"
+        :overlay-style="{
           position: 'absolute',
-          ...maskStyle,
+          ...overlayStyle,
         }"
-        @click="
+        @overlay-click="
           (ev) => {
-            $emit('click-mask', ev);
-            handleClose('mask', ev, false);
+            $emit('overlay-click', ev);
+            handleClose('overlay', ev, false);
           }
         "
       />
@@ -59,7 +59,7 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { PopupProps, PopupEmits, PopupSlots } from './type';
 import { valueToPx, isUndefined } from '@shared/utils';
-import usePopupClose from '@/components/Modal/hooks/useModalClose';
+import usePopupClose from '@/components/Dialog/hooks/useDialogClose';
 defineOptions({
   name: 'Popup',
   inheritAttrs: false,
@@ -69,10 +69,10 @@ const props = withDefaults(defineProps<PopupProps>(), {
   visible: undefined,
   defaultVisible: false,
   placement: 'bottom',
-  mask: true,
-  maskClass: '',
-  maskStyle: () => ({}),
-  maskClosable: true,
+  overlay: true,
+  overlayClass: '',
+  overlayStyle: () => ({}),
+  overlayClosable: true,
   popupClass: '',
   popupStyle: () => ({}),
   round: (props) => {
@@ -92,7 +92,7 @@ const {
   width,
   height,
   placement,
-  maskClosable,
+  overlayClosable,
   lockScroll,
   popupStyle: _popupStyle,
 } = toRefs(props);
@@ -116,7 +116,7 @@ const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
   usePopupClose({
     visible,
     defaultVisible,
-    maskClosable,
+    overlayClosable,
     lockScroll,
     emits: emits as any,
   });

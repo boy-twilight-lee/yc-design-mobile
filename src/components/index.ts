@@ -2,18 +2,17 @@ import { App, Plugin } from 'vue';
 import Button from './Button';
 import FloatingPopup from './FloatingPopup';
 import Popup from './Popup';
-import Modal from './Dialog';
-import Mask from './Mask';
-import Spin from './Spin';
-import { useDraggable } from '@vueuse/core';
+import Dialog from './Dialog';
+import Overlay from './Overlay';
+import Loading from './Loading';
 
 const components: Record<string, Plugin> = {
   Button,
+  Dialog,
   FloatingPopup,
+  Loading,
+  Overlay,
   Popup,
-  Modal,
-  Mask,
-  Spin,
 };
 
 export default {
