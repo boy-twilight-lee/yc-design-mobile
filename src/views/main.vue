@@ -1,9 +1,13 @@
 <template>
   <div class="container">
-    <yc-button @click="visible = true">测试</yc-button>
-    <yc-loading type="spin" />
-    <yc-popup-swiper v-model:visible="visible" :anchors="[0.3, 0.7]">
-    </yc-popup-swiper>
+    <yc-button
+      @click="
+        $message.open({
+          content: 'dsada',
+        })
+      "
+      >测试</yc-button
+    >
   </div>
 </template>
 

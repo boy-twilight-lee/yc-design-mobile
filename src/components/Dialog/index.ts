@@ -13,7 +13,7 @@ const open = (props: DialogConfig) => {
   // 挂在容器
   if (!container) {
     container = document.createElement('div');
-    container.className = 'yc-overlay yc-overlay-dialog';
+    container.className = 'yc-overlay-dialog';
     document.body.append(container);
   }
   // 关闭函数
