@@ -17,6 +17,7 @@
         :z-index="0"
         :overlay-style="{
           position: 'absolute',
+          backgroundColor: 'rgba(0, 0, 0, 0.9)',
           ...overlayStyle,
         }"
       />
@@ -29,6 +30,7 @@
         @after-leave="handleAfterLeave"
       >
         <div v-show="innerVisible" class="yc-image-preview" ref="containerRef">
+          <!-- image-list -->
           <div class="yc-image-list">
             <div
               v-for="(v, i) in srcList"
@@ -46,6 +48,17 @@
               <img :src="v" :style="style" class="yc-image-preview-img" />
             </div>
           </div>
+          <!-- close-btn -->
+          <div class="yc-image-preview-pager">
+            {{ computedCurrent + 1 }} / {{ srcList.length }}
+          </div>
+          <div
+            v-if="closable"
+            class="yc-image-preview-close-btn"
+            @click="handleClose('cancelBtn', $event)"
+          >
+            <icon-close />
+          </div>
           <slot />
         </div>
       </transition>
@@ -62,6 +75,7 @@ import {
 } from './type';
 import { useControlValue, isUndefined } from '@shared/utils';
 import Hammer from 'hammerjs';
+import IconClose from '@/components/PopupSwiper/component/IconClose.vue';
 import usePreviewClose from '@/components/Dialog/hooks/useDialogClose';
 import YcOverlay from '@/components/Overlay';
 defineOptions({
@@ -80,6 +94,7 @@ const props = withDefaults(defineProps<ImagePreviewProps>(), {
   overlayClass: '',
   overlayStyle: () => ({}),
   overlayClosable: true,
+  closable: true,
   lockScroll: true,
   zIndex: 1001,
   defaultScale: 1,
@@ -118,12 +133,12 @@ const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
     overlayClosable,
     emits: emits,
   });
+// 监听手势的容器
+const containerRef = ref<HTMLElement>();
 // 移动方向
 const moveType = ref<string>('positive');
 // preIndex
 const preIndex = ref<number>(computedCurrent.value);
-// 监听手势的容器
-const containerRef = ref<HTMLElement>();
 // 缩放
 const scale = ref<number>(defaultScale.value);
 // 拖动
@@ -153,29 +168,6 @@ const getSlideClass = (index: number) => {
   const siideMoveType = moveType.value == 'positive' ? '' : '-reverse';
   return `yc-carousel-slide-x${slideType}${siideMoveType}`;
 };
-// 处理action
-const handleAction = (action: string) => {
-  switch (action) {
-    case 'pre':
-      {
-        moveType.value = 'negative';
-        preIndex.value = computedCurrent.value;
-        let index = computedCurrent.value - 1;
-        index = index < 0 ? srcList.value.length - 1 : index;
-        computedCurrent.value = index;
-      }
-      break;
-    case 'next':
-      {
-        moveType.value = 'positive';
-        preIndex.value = computedCurrent.value;
-        let index = computedCurrent.value + 1;
-        index = index >= srcList.value.length ? 0 : index;
-        computedCurrent.value = index;
-      }
-      break;
-  }
-};
 // 监听组件可见性，动态创建和销毁手势监听
 watch(
   () => innerVisible.value,
@@ -193,11 +185,19 @@ watch(
       // 滑动切换 (Swipe)
       hammer.on('swipeleft', () => {
         if (scale.value > defaultScale.value) return;
-        handleAction('next');
+        moveType.value = 'positive';
+        preIndex.value = computedCurrent.value;
+        let index = computedCurrent.value + 1;
+        index = index >= srcList.value.length ? 0 : index;
+        computedCurrent.value = index;
       });
       hammer.on('swiperight', () => {
         if (scale.value > defaultScale.value) return;
-        handleAction('pre');
+        moveType.value = 'negative';
+        preIndex.value = computedCurrent.value;
+        let index = computedCurrent.value - 1;
+        index = index < 0 ? srcList.value.length - 1 : index;
+        computedCurrent.value = index;
       });
       // 捏合缩放
       let oldScale = 1;

@@ -12,6 +12,7 @@ export interface ImagePreviewProps {
   overlayClass?: ClassName;
   overlayStyle?: CSSProperties;
   overlayClosable?: boolean;
+  closable?: boolean;
   lockScroll?: boolean;
   zIndex?: number;
   defaultScale?: number;
