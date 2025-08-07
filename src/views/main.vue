@@ -1,21 +1,11 @@
 <template>
   <div class="container">
-    <yc-button
-      @click="
-        $message.open({
-          content: 'dsadadsadadsadadsadadsadadsadadsadadsadadsadadsada',
-          position: 'top',
-        })
-      "
-      >测试</yc-button
-    >
+    <yc-button>测试</yc-button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-
-const visible = ref<boolean>(false);
+import { ref, h } from 'vue';
 </script>
 
 <style lang="less" scoped>

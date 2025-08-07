@@ -10,7 +10,9 @@
       :class="['yc-message', `yc-message-${position}`, className]"
       :style="style"
     >
-      <div v-if="icon" class="yc-message-icon"></div>
+      <div v-if="icon" class="yc-message-icon">
+        <component :is="icon" />
+      </div>
       <div class="yc-message-content">{{ content }}</div>
     </div>
   </transition>

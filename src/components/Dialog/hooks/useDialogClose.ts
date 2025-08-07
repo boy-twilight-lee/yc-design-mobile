@@ -60,7 +60,9 @@ export default (params: {
     if (type == 'confirmBtn') {
       emits('ok');
     }
-    emitCancel && emits('cancel', ev);
+    if (emitCancel) {
+      emits('cancel', ev);
+    }
     innerVisible.value = false;
   };
 

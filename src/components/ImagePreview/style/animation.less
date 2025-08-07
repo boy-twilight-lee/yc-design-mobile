@@ -1,0 +1,51 @@
+// slide
+@keyframes carousel-slide-x-in {
+	from {
+		transform: translateX(100%);
+	}
+
+	to {
+		transform: translateX(0);
+	}
+}
+@keyframes carousel-slide-x-in-reverse {
+	from {
+		transform: translateX(-100%);
+	}
+
+	to {
+		transform: translateX(0);
+	}
+}
+@keyframes carousel-slide-x-out {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(-100%);
+	}
+}
+@keyframes carousel-slide-x-out-reverse {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(100%);
+	}
+}
+.yc-carousel-slide-x-in {
+	animation-name: carousel-slide-x-in;
+}
+.yc-carousel-slide-x-in-reverse {
+	animation-name: carousel-slide-x-in-reverse;
+}
+.yc-carousel-slide-x-out {
+	visibility: visible;
+	animation-name: carousel-slide-x-out;
+}
+.yc-carousel-slide-x-out-reverse {
+	visibility: visible;
+	animation-name: carousel-slide-x-out-reverse;
+}

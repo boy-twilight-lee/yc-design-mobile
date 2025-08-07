@@ -1,4 +1,4 @@
-import { CSSProperties, RenderFunction } from 'vue';
+import { CSSProperties, RenderFunction, VNode } from 'vue';
 import { ClassName } from '@shared/type';
 
 export interface MessageProps {
@@ -7,7 +7,7 @@ export interface MessageProps {
   position?: MessagePosition;
   className?: ClassName;
   style?: CSSProperties;
-  icon?: RenderFunction;
+  icon?: VNode;
   beforeClose?: () => void;
   close?: () => void;
   afterClose?: () => void;
