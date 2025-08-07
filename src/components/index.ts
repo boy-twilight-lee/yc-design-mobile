@@ -17,7 +17,7 @@ import Tooltip from './Tooltip';
 
 const components: Record<string, Plugin> = {
   Button,
-  // Checkbox,
+  Checkbox,
   Dialog,
   ImagePreview,
   Loading,

@@ -2,12 +2,10 @@
 .yc-radio {
   position: relative;
   cursor: pointer;
-  padding-left: 5px;
   font-size: 14px;
   line-height: unset;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
 
   .yc-radio-target {
     position: absolute;
@@ -23,12 +21,18 @@
     flex-shrink: 0;
   }
   .yc-radio-icon {
-    width: 14px;
-    height: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:deep(svg) {
+      width: 18px;
+      height: 18px;
+    }
   }
   .yc-radio-label {
     user-select: none;
     flex: 1;
+    margin-left: 8px;
     color: rgb(29, 33, 41);
   }
 }

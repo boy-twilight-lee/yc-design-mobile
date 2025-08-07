@@ -1,6 +1,7 @@
 <template>
   <label
     :class="[
+      'yc-radio',
       `yc-radio-${checked ? 'checked' : 'unchecked'}`,
       {
         'yc-radio-disabled': computedDisabled,
@@ -16,7 +17,9 @@
       :disabled="computedDisabled"
     />
     <slot name="radio" :checked="checked" :disabled="computedDisabled">
-      <span class="yc-radio-icon"> </span>
+      <span class="yc-radio-icon">
+        <icon-radio :checked="checked" :disabled="disabled" />
+      </span>
       <span v-if="$slots.default" class="yc-radio-label text-ellipsis">
         <slot />
       </span>
@@ -29,6 +32,7 @@ import { toRefs, computed } from 'vue';
 import { RadioProps, RadioEmits, RadioSlots, RadioValue } from './type';
 import { useControlValue } from '@shared/utils';
 import useContext from './hooks/useContext';
+import IconRadio from './component/IconRadio.vue';
 defineOptions({
   name: 'Radio',
 });

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <yc-radio />
+    <yc-checkbox disabled> 选择 </yc-checkbox>
+    <yc-radio>选择</yc-radio>
     <yc-button @click="visible = true">测试</yc-button>
   </div>
 </template>

@@ -24,7 +24,11 @@
       :disabled="computedDisabled"
     >
       <span class="yc-checkbox-icon">
-        <!-- <icon-checkbox-checked :size="[8, 10]" /> -->
+        <icon-checkbox
+          :checked="computedChecked"
+          :indeterminate="indeterminate"
+          :disabled="disabled"
+        />
       </span>
       <span v-if="$slots.default" class="yc-checkbox-label text-ellipsis">
         <slot />
@@ -38,6 +42,7 @@ import { toRefs, computed } from 'vue';
 import { CheckboxProps, CheckboxEmits, CheckboxSlots } from './type';
 import { useControlValue, isUndefined } from '@shared/utils';
 import useContext from './hooks/useContext';
+import IconCheckbox from './component/IconCheckbox.vue';
 defineOptions({
   name: 'Checkbox',
 });
@@ -55,6 +60,7 @@ const {
   defaultChecked,
   value: checkboxValue,
   disabled,
+  indeterminate,
 } = toRefs(props);
 // 接收注入
 const {
