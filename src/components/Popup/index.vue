@@ -105,7 +105,7 @@ const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
     defaultVisible,
     overlayClosable,
     lockScroll,
-    emits: emits as any,
+    emits,
   });
 </script>
 

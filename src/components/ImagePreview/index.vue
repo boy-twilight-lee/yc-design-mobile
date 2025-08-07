@@ -46,6 +46,7 @@
               <img :src="v" :style="style" class="yc-image-preview-img" />
             </div>
           </div>
+          <slot />
         </div>
       </transition>
     </div>
@@ -54,7 +55,11 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch, nextTick } from 'vue';
-import { ImagePreviewProps, ImagePreviewEmits } from './type';
+import {
+  ImagePreviewProps,
+  ImagePreviewEmits,
+  ImagePreviewSlots,
+} from './type';
 import { useControlValue, isUndefined } from '@shared/utils';
 import Hammer from 'hammerjs';
 import usePreviewClose from '@/components/Dialog/hooks/useDialogClose';
@@ -63,6 +68,7 @@ defineOptions({
   name: 'ImagePreview',
   inheritAttrs: false,
 });
+defineSlots<ImagePreviewSlots>();
 const props = withDefaults(defineProps<ImagePreviewProps>(), {
   srcList: () => [],
   current: undefined,
@@ -110,7 +116,7 @@ const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
     defaultVisible,
     lockScroll,
     overlayClosable,
-    emits: emits as any,
+    emits: emits,
   });
 // 移动方向
 const moveType = ref<string>('positive');
@@ -193,13 +199,13 @@ watch(
         if (scale.value > defaultScale.value) return;
         handleAction('pre');
       });
-      // 捏合缩放 (Pinch)
+      // 捏合缩放
       let oldScale = 1;
       hammer.on('pinchstart', () => {
         oldScale = scale.value;
       });
       hammer.on('pinchmove', (ev) => {
-        scale.value = defaultScale.value * ev.scale;
+        scale.value = oldScale * ev.scale;
         emits('scale', scale.value);
       });
       hammer.on('pinchend', () => {
@@ -211,9 +217,10 @@ watch(
           x.value = 0;
           y.value = 0;
         }
+        oldScale = scale.value;
         emits('scale', scale.value);
       });
-      // 拖动 (Pan)
+      // 拖动
       let oldX = 0;
       let oldY = 0;
       hammer.on('panstart', () => {

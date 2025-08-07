@@ -21,6 +21,7 @@ declare module 'vue' {
     IconLoadingArc: typeof import('./src/components/Loading/component/IconLoadingArc.vue')['default']
     IconLoadingCircle: typeof import('./src/components/Loading/component/IconLoadingCircle.vue')['default']
     IconLoadingSpin: typeof import('./src/components/Loading/component/IconLoadingSpin.vue')['default']
+    ImagePreview: typeof import('./src/components/ImagePreview/index.vue')['default']
     Loading: typeof import('./src/components/Loading/index.vue')['default']
     Mask: typeof import('./src/components/Mask/index.vue')['default']
     Message: typeof import('./src/components/Message/index.vue')['default']

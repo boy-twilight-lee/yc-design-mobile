@@ -29,3 +29,7 @@ export interface ImagePreviewEmits {
   (e: 'before-close'): void;
   (e: 'close'): void;
 }
+
+export interface ImagePreviewSlots {
+  default(): void;
+}

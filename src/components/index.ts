@@ -1,6 +1,7 @@
 import { App, Plugin } from 'vue';
 import Button from './Button';
 import Dialog from './Dialog';
+import ImagePreview from './ImagePreview';
 import Loading from './Loading';
 import Message from './Message';
 import Overlay from './Overlay';
@@ -14,6 +15,7 @@ import Tooltip from './Tooltip';
 const components: Record<string, Plugin> = {
   Button,
   Dialog,
+  ImagePreview,
   Loading,
   Message,
   Overlay,

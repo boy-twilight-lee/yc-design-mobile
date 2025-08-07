@@ -13,7 +13,7 @@ export default (params: {
   lockScroll: Ref<boolean>;
   onBeforeOk?: OnBeforeOk;
   onBeforeCancel?: OnBeforeCancel;
-  emits: DialogEmits;
+  emits: any;
 }) => {
   const {
     overlayClosable,
