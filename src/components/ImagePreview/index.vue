@@ -43,21 +43,24 @@
                     i == getValidIndex(computedCurrent),
                 },
               ]"
-              @click.self="handleClose('overlay', $event, false)"
+              @click.self="handleClose('overlay', $event)"
             >
               <img :src="v" :style="style" class="yc-image-preview-img" />
             </div>
           </div>
-          <!-- close-btn -->
+          <!-- pager -->
           <div class="yc-image-preview-pager">
             {{ computedCurrent + 1 }} / {{ srcList.length }}
           </div>
+          <!-- close-btn -->
           <div
             v-if="closable"
             class="yc-image-preview-close-btn"
             @click="handleClose('cancelBtn', $event)"
           >
-            <icon-close />
+            <slot name="close-icon">
+              <icon-close />
+            </slot>
           </div>
           <slot />
         </div>

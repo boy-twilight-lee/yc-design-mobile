@@ -68,7 +68,11 @@
                   type="text"
                   class="yc-dialog-cancel-button"
                   v-bind="cancelButtonProps"
-                  @click="handleClose('cancelBtn', $event)"
+                  @click="
+                    handleClose('cancelBtn', $event, (ev) => {
+                      $emit('cancel', ev as MouseEvent);
+                    })
+                  "
                 >
                   {{ cancelText }}
                 </yc-button>

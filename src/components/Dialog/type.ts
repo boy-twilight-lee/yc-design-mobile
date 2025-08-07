@@ -34,7 +34,7 @@ export interface DialogProps {
 export interface DialogEmits {
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
-  (e: 'cancel', ev: MouseEvent | KeyboardEvent): void;
+  (e: 'cancel', ev: MouseEvent): void;
   (e: 'open'): void;
   (e: 'before-open'): void;
   (e: 'close'): void;

@@ -35,6 +35,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
     Sticky: typeof import('./src/components/Sticky/index.vue')['default']
+    Switch: typeof import('./src/components/Switch/index.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
     VanFloatingPanel: typeof import('vant/es')['FloatingPanel']

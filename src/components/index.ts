@@ -9,6 +9,7 @@ import PopupSwiper from './PopupSwiper';
 import Popup from './Popup';
 import Popover from './Popover';
 import Sticky from './Sticky';
+import Switch from './Switch';
 import Trigger from './Trigger';
 import Tooltip from './Tooltip';
 
@@ -23,6 +24,7 @@ const components: Record<string, Plugin> = {
   PopupSwiper,
   Popover,
   Sticky,
+  Switch,
   Trigger,
   Tooltip,
 };

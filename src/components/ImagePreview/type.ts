@@ -33,4 +33,5 @@ export interface ImagePreviewEmits {
 
 export interface ImagePreviewSlots {
   default(): void;
+  ['close-icon'](): void;
 }

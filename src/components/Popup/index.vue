@@ -30,7 +30,7 @@
         @overlay-click="
           (ev) => {
             $emit('overlay-click', ev);
-            handleClose('overlay', ev, false);
+            handleClose('overlay', ev);
           }
         "
       />

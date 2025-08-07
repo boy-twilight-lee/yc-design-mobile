@@ -1,12 +1,13 @@
 <template>
   <div class="container">
     <yc-image-preview v-model:visible="visible" :src-list="srcList" />
+    <yc-switch loading />
     <yc-button @click="visible = true">测试</yc-button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, h } from 'vue';
+import { ref } from 'vue';
 const visible = ref<boolean>(false);
 const srcList = ref([
   'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/cd7a1aaea8e1c5e3d26fe2591e561798.png~tplv-uwbnlip3yd-webp.webp',
@@ -26,5 +27,6 @@ const srcList = ref([
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 }
 </style>
