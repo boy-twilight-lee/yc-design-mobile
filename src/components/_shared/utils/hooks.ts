@@ -1,6 +1,5 @@
 import { computed, ref, Ref, onMounted, onBeforeUnmount } from 'vue';
 import { isUndefined } from '../utils';
-import { useEventListener } from '@vueuse/core';
 import * as Hammer from 'hammerjs';
 
 type OnSet = (...args: any) => any;

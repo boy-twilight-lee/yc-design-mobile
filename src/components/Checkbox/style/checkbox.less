@@ -1,0 +1,40 @@
+.yc-checkbox {
+  position: relative;
+  cursor: pointer;
+  padding-left: 5px;
+  font-size: 14px;
+  line-height: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  .yc-checkbox-target {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+  .yc-checkbox-icon,
+  .yc-checkbox-label {
+    flex-shrink: 0;
+  }
+  .yc-checkbox-icon {
+    position: relative;
+    width: 14px;
+    height: 14px;
+  }
+  .yc-checkbox-label {
+    user-select: none;
+    flex: 1;
+    color: rgb(29, 33, 41);
+  }
+}
+
+// disabled
+.yc-checkbox-disabled {
+  .yc-checkbox-label {
+    color: rgb(201, 205, 212);
+  }
+}

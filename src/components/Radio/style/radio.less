@@ -1,0 +1,41 @@
+// radio
+.yc-radio {
+  position: relative;
+  cursor: pointer;
+  padding-left: 5px;
+  font-size: 14px;
+  line-height: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  .yc-radio-target {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+
+  .yc-radio-icon,
+  .yc-radio-label {
+    flex-shrink: 0;
+  }
+  .yc-radio-icon {
+    width: 14px;
+    height: 14px;
+  }
+  .yc-radio-label {
+    user-select: none;
+    flex: 1;
+    color: rgb(29, 33, 41);
+  }
+}
+
+// disabled
+.yc-radio-disabled {
+  .yc-radio-label {
+    color: rgb(201, 205, 212);
+  }
+}

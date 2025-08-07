@@ -1,5 +1,6 @@
 import { App, Plugin } from 'vue';
 import Button from './Button';
+import Checkbox from './Checkbox';
 import Dialog from './Dialog';
 import ImagePreview from './ImagePreview';
 import Loading from './Loading';
@@ -8,6 +9,7 @@ import Overlay from './Overlay';
 import PopupSwiper from './PopupSwiper';
 import Popup from './Popup';
 import Popover from './Popover';
+import Radio from './Radio';
 import Sticky from './Sticky';
 import Switch from './Switch';
 import Trigger from './Trigger';
@@ -15,6 +17,7 @@ import Tooltip from './Tooltip';
 
 const components: Record<string, Plugin> = {
   Button,
+  // Checkbox,
   Dialog,
   ImagePreview,
   Loading,
@@ -23,6 +26,7 @@ const components: Record<string, Plugin> = {
   Popup,
   PopupSwiper,
   Popover,
+  Radio,
   Sticky,
   Switch,
   Trigger,
