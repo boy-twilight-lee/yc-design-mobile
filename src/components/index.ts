@@ -10,6 +10,7 @@ import Overlay from './Overlay';
 import PopupSwiper from './PopupSwiper';
 import Popup from './Popup';
 import Popover from './Popover';
+import PullRefresh from './PullRefresh';
 import Radio from './Radio';
 import Sticky from './Sticky';
 import Switch from './Switch';
@@ -28,12 +29,15 @@ const components: Record<string, Plugin> = {
   Popup,
   PopupSwiper,
   Popover,
+  PullRefresh,
   Radio,
   Sticky,
   Switch,
   Trigger,
   Tooltip,
 };
+
+console.log('components:', Object.keys(components).length);
 
 export default {
   ...components,

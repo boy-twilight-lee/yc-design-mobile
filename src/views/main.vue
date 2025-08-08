@@ -1,41 +1,22 @@
 <template>
   <div class="container">
-    <yc-list
-      :finished="current > 10"
-      :loading="loading"
-      finished-text="没有更多了"
-      @load="fetchData"
-    >
-      <div v-for="item in data" :key="item">
-        {{ item }}
-      </div>
-    </yc-list>
-    <van-list loading error finished @load="fetchData"> </van-list>
+    <yc-pull-refresh :loading="loading" @refresh="handleRefresh">
+      <div style="width: 100%; height: 100%; background-color: black"></div>
+    </yc-pull-refresh>
+    <van-pull-refresh :model-value="loading" @refresh="handleRefresh">
+      <div style="width: 100%; height: 100%; background-color: black"></div>
+    </van-pull-refresh>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-const visible = ref<boolean>(false);
-const current = ref(1);
-const data = reactive<any[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+import { sleep } from '@shared/utils';
 const loading = ref<boolean>(false);
-const fetchData = () => {
+const handleRefresh = async () => {
   loading.value = true;
-  window.setTimeout(() => {
-    const index = data.length;
-    data.push(
-      ...[
-        `Beijing Bytedance Technology Co., Ltd. ${index + 1}`,
-        `Bytedance Technology Co., Ltd. ${index + 2}`,
-        `Beijing Toutiao Technology Co., Ltd. ${index + 3}`,
-        `Beijing Volcengine Technology Co., Ltd. ${index + 4}`,
-        `China Beijing Bytedance Technology Co., Ltd. ${index + 5}`,
-      ]
-    );
-    current.value += 1;
-    loading.value = false;
-  }, 1000);
+  await sleep(1000);
+  loading.value = false;
 };
 </script>
 
@@ -50,19 +31,13 @@ const fetchData = () => {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  .yc-list,
-  .van-list {
-    height: 200px;
-    width: 100%;
-    overflow: auto;
-    div {
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #000;
-      font-size: 14px;
-    }
+
+  .van-pull-refresh,
+  .yc-pull-refresh {
+    height: 300px;
+    width: 300px;
+    border: 1px solid rgb(229, 230, 235);
+    border-radius: 8px;
   }
 }
 </style>

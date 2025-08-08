@@ -41,6 +41,7 @@ declare module 'vue' {
     Popover: typeof import('./src/components/Popover/index.vue')['default']
     Popup: typeof import('./src/components/Popup/index.vue')['default']
     PopupSwiper: typeof import('./src/components/PopupSwiper/index.vue')['default']
+    PullRefresh: typeof import('./src/components/PullRefresh/index.vue')['default']
     Radio: typeof import('./src/components/Radio/Radio.vue')['default']
     RadioGroup: typeof import('./src/components/Radio/RadioGroup.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -53,5 +54,6 @@ declare module 'vue' {
     VanFloatingPanel: typeof import('vant/es')['FloatingPanel']
     VanFloatingPopup: typeof import('vant/es')['FloatingPopup']
     VanList: typeof import('vant/es')['List']
+    VanPullRefresh: typeof import('vant/es')['PullRefresh']
   }
 }

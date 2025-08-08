@@ -22,7 +22,7 @@
         </div>
       </slot>
     </div>
-    <slot v-else />
+    <slot v-if="direction == 'top'" />
   </div>
 </template>
 
