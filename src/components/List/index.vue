@@ -1,8 +1,20 @@
 <template>
   <div class="yc-list" ref="scrollRef">
-    <slot />
+    <slot v-if="direction == 'bottom'" />
+    <!-- error -->
+    <div v-if="error && errorText" class="yc-list-error-text">
+      <slot name="error">
+        {{ errorText }}
+      </slot>
+    </div>
+    <!-- finish -->
+    <div v-if="finished && finishedText" class="yc-list-finish-text">
+      <slot name="finish">
+        {{ finishedText }}
+      </slot>
+    </div>
     <!-- loading -->
-    <div v-if="loading" class="yc-list-loading">
+    <div v-if="!error && !finished && loading" class="yc-list-loading">
       <slot name="loading">
         <yc-loading :size="16" stroke-color="rgb(150, 151, 153)" />
         <div class="yc-list-loading-text">
@@ -10,18 +22,7 @@
         </div>
       </slot>
     </div>
-    <!-- error -->
-    <div v-else-if="error && errorText" class="yc-list-error-text">
-      <slot name="error">
-        {{ errorText }}
-      </slot>
-    </div>
-    <!-- finish -->
-    <div v-else-if="finished && finishedText" class="yc-list-finish-text">
-      <slot name="finish">
-        {{ finishedText }}
-      </slot>
-    </div>
+    <slot v-else />
   </div>
 </template>
 
@@ -53,18 +54,8 @@ const scrollRef = ref<HTMLDivElement>();
 useScrollRech({
   scrollRef,
   offset: {
-    left: offset.value,
-    right: offset.value,
     bottom: offset.value,
     top: offset.value,
-  },
-  onReachLeft() {
-    if (finished.value || loading.value || direction.value != 'left') return;
-    emits('load');
-  },
-  onReachRight() {
-    if (finished.value || loading.value || direction.value != 'right') return;
-    emits('load');
   },
   onReachTop() {
     if (finished.value || loading.value || direction.value != 'top') return;

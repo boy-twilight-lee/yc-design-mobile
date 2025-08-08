@@ -10,16 +10,7 @@
         {{ item }}
       </div>
     </yc-list>
-    <van-list
-      :finished="current > 10"
-      :loading="loading"
-      finished-text="没有更多了"
-      @load="fetchData"
-    >
-      <div v-for="item in data" :key="item">
-        {{ item }}
-      </div>
-    </van-list>
+    <van-list loading error finished @load="fetchData"> </van-list>
   </div>
 </template>
 
@@ -44,7 +35,7 @@ const fetchData = () => {
     );
     current.value += 1;
     loading.value = false;
-  }, 100000);
+  }, 1000);
 };
 </script>
 

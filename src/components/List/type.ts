@@ -7,7 +7,7 @@ export interface ListProps {
   errorText?: string;
   finishedText?: string;
   disabled?: boolean;
-  direction?: 'left' | 'right' | 'top' | 'bottom';
+  direction?: 'top' | 'bottom';
 }
 
 export interface ListEmits {
