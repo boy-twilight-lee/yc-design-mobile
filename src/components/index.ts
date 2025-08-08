@@ -3,6 +3,7 @@ import Button from './Button';
 import Checkbox from './Checkbox';
 import Dialog from './Dialog';
 import ImagePreview from './ImagePreview';
+import List from './List';
 import Loading from './Loading';
 import Message from './Message';
 import Overlay from './Overlay';
@@ -20,6 +21,7 @@ const components: Record<string, Plugin> = {
   Checkbox,
   Dialog,
   ImagePreview,
+  List,
   Loading,
   Message,
   Overlay,

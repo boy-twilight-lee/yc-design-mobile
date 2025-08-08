@@ -1,7 +1,11 @@
 .yc-checkbox-group-direction-horizontal {
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  &:deep(.yc-checkbox) {
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
 }
 .yc-checkbox-group-direction-vertical {
   display: flex;

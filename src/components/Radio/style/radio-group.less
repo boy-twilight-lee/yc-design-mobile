@@ -1,7 +1,11 @@
 .yc-radio-group-direction-horizontal {
   display: inline-flex;
   align-items: center;
-  gap: 20px;
+  &:deep(.yc-radio) {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
 }
 .yc-radio-group-direction-vertical {
   display: flex;

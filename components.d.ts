@@ -31,6 +31,7 @@ declare module 'vue' {
     IconRadio: typeof import('./src/components/Radio/component/IconRadio.vue')['default']
     IconUncheck: typeof import('./src/components/Radio/component/IconUncheck.vue')['default']
     ImagePreview: typeof import('./src/components/ImagePreview/index.vue')['default']
+    List: typeof import('./src/components/List/index.vue')['default']
     Loading: typeof import('./src/components/Loading/index.vue')['default']
     Mask: typeof import('./src/components/Mask/index.vue')['default']
     Message: typeof import('./src/components/Message/index.vue')['default']
@@ -51,5 +52,6 @@ declare module 'vue' {
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
     VanFloatingPanel: typeof import('vant/es')['FloatingPanel']
     VanFloatingPopup: typeof import('vant/es')['FloatingPopup']
+    VanList: typeof import('vant/es')['List']
   }
 }
