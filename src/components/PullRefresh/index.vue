@@ -8,7 +8,7 @@
     <div
       class="yc-pull-refresh-track"
       :style="{
-        transform: `translate3d(0px,${(loading ? headerHeight : y) / 3.75}vw,0px)`,
+        transform: `translate3d(0px,${y / 3.75}vw,0px)`,
       }"
       ref="trackRef"
     >
@@ -22,15 +22,16 @@
         <span v-if="y > 0 && y < pullDistance" class="yc-pulling-text">
           {{ pullingText }}
         </span>
-        <span v-if="y >= pullDistance" class="yc-loosing-text">
+        <span v-if="y >= pullDistance && !loading" class="yc-loosing-text">
           {{ loosingText }}
         </span>
-        <template v-if="loading">
+        <span v-if="isSuccess" class="yc-success-text">
+          {{ successText }}
+        </span>
+        <span v-else-if="loading" class="yc-loading-text">
           <yc-loading :size="16" stroke-color="rgb(150, 151, 153)" />
-          <span class="yc-loading-text">
-            {{ loadingText }}
-          </span>
-        </template>
+          {{ loadingText }}
+        </span>
       </div>
       <slot />
     </div>
@@ -40,6 +41,7 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { PullRefreshProps, PullRefreshEmits, PullRefreshSlots } from './type';
+import { sleep } from '@shared/utils';
 defineOptions({
   name: 'PullRefresh',
 });
@@ -57,12 +59,21 @@ const props = withDefaults(defineProps<PullRefreshProps>(), {
   disabled: false,
 });
 const emits = defineEmits<PullRefreshEmits>();
-const { disabled, pullDistance, loading, headerHeight, animationDuration } =
-  toRefs(props);
+const {
+  disabled,
+  pullDistance,
+  loading,
+  headerHeight,
+  animationDuration,
+  successDuration,
+  successText,
+} = toRefs(props);
 // 刷新ref
 const trackRef = ref<HTMLDivElement>();
 // 是否触摸
 const isTouch = ref<boolean>(false);
+//是否成功
+const isSuccess = ref<boolean>(false);
 // 之前的y
 const preY = ref(0);
 // 现在的y
@@ -72,6 +83,7 @@ const handleTouchStart = (e: TouchEvent) => {
   if (e.touches.length > 1 || loading.value || disabled.value) {
     return;
   }
+  isSuccess.value = false;
   trackRef.value!.style.transition = 'none';
   isTouch.value = true;
   preY.value = e.touches[0].clientY;
@@ -101,10 +113,19 @@ const handleTouchEnd = async (e: TouchEvent) => {
   isTouch.value = false;
   preY.value = 0;
   const offsetY = y.value;
-  y.value = 0;
-  if (offsetY < pullDistance.value) return;
+  y.value = headerHeight.value;
+  if (offsetY < pullDistance.value) {
+    y.value = 0;
+    trackRef.value!.style.transition = `transform ${animationDuration.value / 1000}s ease`;
+    return;
+  }
   emits('refresh');
   trackRef.value!.style.transition = `transform ${animationDuration.value / 1000}s ease`;
+  await sleep(animationDuration.value);
+  isSuccess.value = !!successText.value;
+  y.value = isSuccess.value ? headerHeight.value : 0;
+  await sleep(successDuration.value);
+  y.value = 0;
 };
 </script>
 

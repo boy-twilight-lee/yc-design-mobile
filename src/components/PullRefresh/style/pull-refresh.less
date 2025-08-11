@@ -4,8 +4,7 @@
     position: relative;
     height: 100%;
     width: 100%;
-    .yc-pull-refresh-header,
-    .yc-pull-refresh-loading {
+    .yc-pull-refresh-header {
       position: absolute;
       left: 0;
       right: 0;
@@ -15,6 +14,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      .yc-loading-text {
+        display: flex;
+        align-items: center;
+        line-height: 1;
+        .yc-loading {
+          margin-right: 8px;
+        }
+      }
     }
   }
 }
