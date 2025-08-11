@@ -121,11 +121,7 @@ const handleTouchMove = (e: TouchEvent) => {
   if (!isTouch.value) {
     return;
   }
-  const offsetY = touch.clientY - preY;
-  y.value =
-    offsetY > pullDistance.value
-      ? pullDistance.value + (offsetY - pullDistance.value) / 5
-      : offsetY;
+  y.value = (touch.clientY - preY) / 2;
   y.value = y.value < 0 ? 0 : y.value;
 };
 // 处理拖拽结束

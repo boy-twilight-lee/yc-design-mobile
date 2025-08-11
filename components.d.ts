@@ -7,7 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    _Icon: typeof import('./src/components/_shared/components/_Icon.vue')['default']
+    _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox/Checkbox.vue')['default']
     CheckboxGroup: typeof import('./src/components/Checkbox/CheckboxGroup.vue')['default']

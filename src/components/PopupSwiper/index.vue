@@ -97,7 +97,7 @@ const props = withDefaults(defineProps<PopupSwiperProps>(), {
   fixedHeight: false,
   anchors: () => [0.6, 0.9],
   durations: 200,
-  contentDraggable: true,
+  contentDraggable: false,
 });
 const emits = defineEmits<PopupSwiperEmits>();
 // visible
