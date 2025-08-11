@@ -1,20 +1,22 @@
 <template>
   <div class="container">
-    <yc-pull-refresh :loading="loading" @refresh="handleRefresh">
-      <div style="overflow: auto; height: 100%">
-        <div
-          v-for="i in 100"
-          :key="i"
-          style="
-            line-height: 20px;
-            color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          "
-        >
-          {{ i }}
-        </div>
+    <yc-pull-refresh
+      :loading="loading"
+      @refresh="handleRefresh"
+      style="height: 100%; overflow: auto"
+    >
+      <div
+        v-for="i in 100"
+        :key="i"
+        style="
+          line-height: 20px;
+          color: #000;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        {{ i }}
       </div>
     </yc-pull-refresh>
     <van-pull-refresh

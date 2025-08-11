@@ -1,11 +1,11 @@
 <template>
   <div
     class="yc-pull-refresh"
+    ref="pullRef"
     @touchstart.passive="handleTouchStart"
     @touchmove.passive="handleTouchMove"
     @touchend="handleTouchEnd"
     @touchcancel="handleTouchEnd"
-    ref="pullRef"
   >
     <div
       class="yc-pull-refresh-track"
@@ -94,7 +94,7 @@ const handleTouchStart = (e: TouchEvent) => {
   if (
     pullRef.value?.scrollTop ||
     touches.length > 1 ||
-    touch.force < 0.8 ||
+    touch.force < 0.5 ||
     loading.value ||
     disabled.value
   ) {
@@ -108,10 +108,9 @@ const handleTouchStart = (e: TouchEvent) => {
 // 处理拖拽移动
 const handleTouchMove = (e: TouchEvent) => {
   const {
-    touches,
     touches: [touch],
   } = e;
-  if (touches.length > 1 || !isTouch.value || loading.value || disabled.value) {
+  if (!isTouch.value) {
     return;
   }
   const offsetY = touch.clientY - preY;
@@ -122,9 +121,8 @@ const handleTouchMove = (e: TouchEvent) => {
   y.value = y.value < 0 ? 0 : y.value;
 };
 // 处理拖拽结束
-const handleTouchEnd = async (e: TouchEvent) => {
-  const { touches } = e;
-  if (!isTouch.value || touches.length > 1 || loading.value || disabled.value) {
+const handleTouchEnd = async () => {
+  if (!isTouch.value) {
     return;
   }
   isTouch.value = false;
