@@ -93,17 +93,7 @@ const props = withDefaults(defineProps<StepperProps>(), {
   },
 });
 const emits = defineEmits<StepperEmits>();
-const {
-  modelValue,
-  defaultValue,
-  step,
-  min,
-  max,
-  disabled,
-  precision: _precision,
-} = toRefs(props);
-// 实例
-const inputRef = ref<HTMLInputElement>();
+const { modelValue, defaultValue, step, min, max, disabled } = toRefs(props);
 // 控制的值
 const computedValue = useControlValue<StepperValue>(
   modelValue,
@@ -118,8 +108,10 @@ const computedValue = useControlValue<StepperValue>(
 // 精度
 const precision = computed(() => {
   const stepPrecision = String(step.value).match(/\.(\d+)/)?.[1]?.length ?? 0;
-  return Math.max(...[stepPrecision, _precision.value]);
+  return Math.max(...[stepPrecision, props.precision]);
 });
+// 输入实例
+const inputRef = ref<HTMLInputElement>();
 // 初始化记录光标位置的hook
 const { setCursor, recordCursor } = useCursor(inputRef);
 // 保持受控
