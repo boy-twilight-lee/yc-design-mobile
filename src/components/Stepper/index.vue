@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
+import { ref, toRefs, computed, nextTick } from 'vue';
 import {
   StepperProps,
   StepperEmits,
@@ -68,13 +68,8 @@ import {
   StepperExpose,
   StepperValue,
 } from './type';
-import {
-  isNumber,
-  isString,
-  isFunction,
-  useControlValue,
-  sleep,
-} from '@shared/utils';
+import useCursor from './hooks/useCursor';
+import { isNumber, isString, useControlValue, sleep } from '@shared/utils';
 import IconMinus from './component/IconMinus.vue';
 import IconPlus from './component/IconPlus.vue';
 defineOptions({
@@ -125,6 +120,17 @@ const precision = computed(() => {
   const stepPrecision = String(step.value).match(/\.(\d+)/)?.[1]?.length ?? 0;
   return Math.max(...[stepPrecision, _precision.value]);
 });
+// 初始化记录光标位置的hook
+const { setCursor, recordCursor } = useCursor(inputRef);
+// 保持受控
+const keepControl = async () => {
+  recordCursor();
+  await nextTick();
+  if (inputRef.value && computedValue.value !== inputRef.value.value) {
+    inputRef.value.value = computedValue.value;
+    setCursor();
+  }
+};
 // 处理精度问题
 function handlePrecision(value: StepperValue, type: 'number' | 'string') {
   // 处理过后的值
@@ -135,14 +141,6 @@ function handlePrecision(value: StepperValue, type: 'number' | 'string') {
     : handleValue.toFixed(0);
   return type == 'number' ? +numberValue : numberValue;
 }
-// 控制
-const keepControl = (e: Event) => {
-  const target = e.target as HTMLInputElement;
-  if (+target.value == +computedValue.value) return;
-  target.value = computedValue.value
-    ? (+computedValue.value).toFixed(precision.value)
-    : '';
-};
 // 处理点击
 const handleStep = (type: 'minus' | 'plus') => {
   let value =
@@ -185,11 +183,11 @@ const handleInput = (v: string, e: Event) => {
   const isInValidNegative = v.includes('-') && v[0] != '-';
   // 处理逻辑
   if (isInValidNumber || isInValidPoint || isInValidNegative) {
-    return keepControl(e);
+    return keepControl();
   }
   computedValue.value = v;
   emits('input', v, e);
-  keepControl(e);
+  keepControl();
 };
 // 暴漏方法
 defineExpose<StepperExpose>({

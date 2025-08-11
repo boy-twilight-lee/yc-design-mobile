@@ -6,15 +6,6 @@
   font-weight: 400;
   display: flex;
   align-items: center;
-  &:not(.yc-stepper-disabled) {
-    .yc-stepper-input {
-      &:focus {
-        background-color: #fff;
-        border-color: rgb(22, 93, 255);
-        box-shadow: 0 0 0 0 rgb(190, 218, 255);
-      }
-    }
-  }
   .yc-stepper-minus,
   .yc-stepper-plus {
     background-color: rgb(242, 243, 245);
@@ -63,16 +54,10 @@
 }
 
 .yc-stepper-disabled {
-  border-color: transparent;
-  background-color: rgb(242, 243, 245);
-  .yc-stepper-minus,
-  .yc-stepper-plus,
+  color: rgb(201, 205, 212);
   .yc-stepper-input {
-    color: rgb(201, 205, 212);
-    &.yc-stepper-input {
-      &::placeholder {
-        color: rgb(201, 205, 212);
-      }
+    &::placeholder {
+      color: rgb(201, 205, 212);
     }
   }
 }
