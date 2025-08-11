@@ -1,4 +1,4 @@
-import { Direction, Size, ObjectData } from '@shared/type';
+import { Direction, ObjectData } from '@shared/type';
 
 export interface RadioProps {
   modelValue?: RadioValue;

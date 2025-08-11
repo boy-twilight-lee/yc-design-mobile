@@ -1,6 +1,6 @@
 .yc-stepper {
   overflow: hidden;
-  width: 100px;
+  width: 95px;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 400;
@@ -8,6 +8,7 @@
   align-items: center;
   .yc-stepper-minus,
   .yc-stepper-plus {
+    flex-shrink: 0;
     background-color: rgb(242, 243, 245);
     border: none;
     outline: none;
@@ -99,7 +100,7 @@ each(@sizes, .(@value, @name) {
         width: @value[height];
       }
       .yc-stepper-input {
-        padding: @value[padding] 1px;
+        padding: @value[padding] 0;
         line-height: @value[line-height];
       }
     }

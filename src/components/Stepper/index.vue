@@ -78,15 +78,14 @@ defineOptions({
 defineSlots<StepperSlots>();
 const props = withDefaults(defineProps<StepperProps>(), {
   modelValue: undefined,
-  defaultValue: '',
+  defaultValue: 1,
   precision: 0,
   step: 1,
   disabled: false,
   max: Infinity,
   min: -Infinity,
   placeholder: '',
-  hideButton: false,
-  size: 'medium',
+  size: 'small',
   readonly: false,
   inputAttrs: () => {
     return {};

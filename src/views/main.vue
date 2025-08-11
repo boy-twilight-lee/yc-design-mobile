@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <yc-stepper :min="0" :max="10" />
+    <yc-stepper />
+    <van-stepper size="small" />
   </div>
 </template>
 
