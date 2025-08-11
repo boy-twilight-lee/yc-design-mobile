@@ -25,17 +25,25 @@
           v-if="y > pullDistance / 2 && y < pullDistance"
           class="yc-pulling-text"
         >
-          {{ pullingText }}
+          <slot name="pulling" :distance="y">
+            {{ pullingText }}
+          </slot>
         </span>
         <span v-if="y >= pullDistance && !loading" class="yc-loosing-text">
-          {{ loosingText }}
+          <slot name="loosing" :distance="y">
+            {{ loosingText }}
+          </slot>
         </span>
         <span v-if="isSuccess" class="yc-success-text">
-          {{ successText }}
+          <slot name="success">
+            {{ successText }}
+          </slot>
         </span>
         <span v-else-if="loading" class="yc-loading-text">
-          <yc-loading :size="16" stroke-color="rgb(150, 151, 153)" />
-          {{ loadingText }}
+          <slot name="loading" :distance="y">
+            <yc-loading :size="16" stroke-color="rgb(150, 151, 153)" />
+            {{ loadingText }}
+          </slot>
         </span>
       </div>
       <slot />
@@ -50,7 +58,7 @@ import { sleep } from '@shared/utils';
 defineOptions({
   name: 'PullRefresh',
 });
-defineSlots<PullRefreshSlots>();
+const slots = defineSlots<PullRefreshSlots>();
 const props = withDefaults(defineProps<PullRefreshProps>(), {
   loading: false,
   pullingText: '下拉即可刷新...',
@@ -132,7 +140,7 @@ const handleTouchEnd = async () => {
     emits('refresh');
     trackRef.value!.style.transition = `transform ${animationDuration.value / 1000}s ease`;
     await sleep(animationDuration.value);
-    isSuccess.value = !!successText.value;
+    isSuccess.value = !!successText.value || !!slots.success;
     y.value = isSuccess.value ? headerHeight.value : 0;
     await sleep(successDuration.value);
   }

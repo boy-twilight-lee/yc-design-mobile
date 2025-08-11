@@ -17,4 +17,8 @@ export interface PullRefreshEmits {
 
 export interface PullRefreshSlots {
   default(): void;
+  pulling(params: { distance: number }): void;
+  loosing(params: { distance: number }): void;
+  loading(params: { distance: number }): void;
+  success(): void;
 }

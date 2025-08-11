@@ -1,0 +1,121 @@
+.yc-stepper {
+  overflow: hidden;
+  width: 100px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  &:not(.yc-stepper-disabled) {
+    .yc-stepper-input {
+      &:focus {
+        background-color: #fff;
+        border-color: rgb(22, 93, 255);
+        box-shadow: 0 0 0 0 rgb(190, 218, 255);
+      }
+    }
+  }
+  .yc-stepper-minus,
+  .yc-stepper-plus {
+    background-color: rgb(242, 243, 245);
+    border: none;
+    outline: none;
+    color: rgb(78, 89, 105);
+    transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .yc-stepper-minus {
+    border-right: 1px solid rgb(229, 230, 235);
+    &.yc-stepper-minus-disabled {
+      color: rgb(201, 205, 212);
+    }
+    &:not(.yc-stepper-minus-disabled):active {
+      background-color: rgb(201, 205, 212);
+    }
+  }
+  .yc-stepper-plus {
+    border-left: 1px solid rgb(229, 230, 235);
+    &.yc-stepper-plus-disabled {
+      color: rgb(201, 205, 212);
+    }
+    &:not(.yc-stepper-plus-disabled):active {
+      background-color: rgb(201, 205, 212);
+    }
+  }
+  .yc-stepper-input {
+    flex: 1;
+    outline: none;
+    border-radius: 0;
+    text-align: center;
+    border: 1px solid transparent;
+    background-color: rgb(242, 243, 245);
+    color: rgb(29, 33, 41);
+    transition:
+      color 0.1s cubic-bezier(0, 0, 1, 1),
+      border-color 0.1s cubic-bezier(0, 0, 1, 1),
+      background-color 0.1s cubic-bezier(0, 0, 1, 1);
+    &::placeholder {
+      color: rgb(134, 144, 156);
+    }
+  }
+}
+
+.yc-stepper-disabled {
+  border-color: transparent;
+  background-color: rgb(242, 243, 245);
+  .yc-stepper-minus,
+  .yc-stepper-plus,
+  .yc-stepper-input {
+    color: rgb(201, 205, 212);
+    &.yc-stepper-input {
+      &::placeholder {
+        color: rgb(201, 205, 212);
+      }
+    }
+  }
+}
+
+@sizes: {
+  @mini: {
+    font-size: 12px;
+    height: 24px;
+    padding: 1px;
+    line-height: 1.667;
+  };
+  @small: {
+    font-size: 14px;
+    height: 28px;
+    padding: 2px;
+    line-height: 1.5715;
+  };
+  @medium: {
+    font-size: 14px;
+    height: 32px;
+    padding: 4px;
+    line-height: 1.5715;
+  };
+  @large: {
+    font-size: 14px;
+    height: 36px;
+    padding: 6px;
+    line-height: 1.5715;
+  };
+};
+each(@sizes, .(@value, @name) {
+    @key: replace(~"@{name}", "@", "");
+    .yc-stepper-size-@{key} {
+      font-size: @value[font-size];
+      height: @value[height];
+      .yc-stepper-minus,
+      .yc-stepper-plus{
+        height:  @value[height];
+        width: @value[height];
+      }
+      .yc-stepper-input {
+        padding: @value[padding] 1px;
+        line-height: @value[line-height];
+      }
+    }
+  });

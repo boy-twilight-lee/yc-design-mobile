@@ -12,6 +12,7 @@ import Popup from './Popup';
 import Popover from './Popover';
 import PullRefresh from './PullRefresh';
 import Radio from './Radio';
+import Stepper from './Stepper';
 import Sticky from './Sticky';
 import Switch from './Switch';
 import Trigger from './Trigger';
@@ -31,6 +32,7 @@ const components: Record<string, Plugin> = {
   Popover,
   PullRefresh,
   Radio,
+  Stepper,
   Sticky,
   Switch,
   Trigger,

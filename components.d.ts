@@ -7,7 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    _Icon: typeof import('./src/components/_shared/components/_Icon.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox/Checkbox.vue')['default']
     CheckboxGroup: typeof import('./src/components/Checkbox/CheckboxGroup.vue')['default']
@@ -20,6 +20,7 @@ declare module 'vue' {
     DialogService: typeof import('./src/components/Dialog/DialogService.vue')['default']
     ExpandTransition: typeof import('./src/components/_shared/components/ExpandTransition.vue')['default']
     FloatingPopup: typeof import('./src/components/FloatingPopup/index.vue')['default']
+    Icon: typeof import('./src/components/_shared/components/Icon.vue')['default']
     IconCheckbox: typeof import('./src/components/Checkbox/component/IconCheckbox.vue')['default']
     IconChecked: typeof import('./src/components/Radio/component/IconChecked.vue')['default']
     IconClose: typeof import('./src/components/PopupSwiper/component/IconClose.vue')['default']
@@ -28,9 +29,13 @@ declare module 'vue' {
     IconLoadingArc: typeof import('./src/components/Loading/component/IconLoadingArc.vue')['default']
     IconLoadingCircle: typeof import('./src/components/Loading/component/IconLoadingCircle.vue')['default']
     IconLoadingSpin: typeof import('./src/components/Loading/component/IconLoadingSpin.vue')['default']
+    IconMinus: typeof import('./src/components/Stepper/component/IconMinus.vue')['default']
+    IconPlus: typeof import('./src/components/Stepper/component/IconPlus.vue')['default']
     IconRadio: typeof import('./src/components/Radio/component/IconRadio.vue')['default']
     IconUncheck: typeof import('./src/components/Radio/component/IconUncheck.vue')['default']
     ImagePreview: typeof import('./src/components/ImagePreview/index.vue')['default']
+    InputNumber: typeof import('./src/components/InputNumber/InputNumber.vue')['default']
+    InputOperaBtn: typeof import('./src/components/InputNumber/InputOperaBtn.vue')['default']
     List: typeof import('./src/components/List/index.vue')['default']
     Loading: typeof import('./src/components/Loading/index.vue')['default']
     Mask: typeof import('./src/components/Mask/index.vue')['default']
@@ -47,6 +52,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
+    Stepper: typeof import('./src/components/Stepper/index.vue')['default']
     Sticky: typeof import('./src/components/Sticky/index.vue')['default']
     Switch: typeof import('./src/components/Switch/index.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
