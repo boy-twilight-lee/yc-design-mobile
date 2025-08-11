@@ -1,9 +1,11 @@
 <template>
   <div
     class="yc-pull-refresh"
-    @touchstart="handleTouchStart"
-    @touchmove="handleTouchMove"
+    @touchstart.passive="handleTouchStart"
+    @touchmove.passive="handleTouchMove"
     @touchend="handleTouchEnd"
+    @touchcancel="handleTouchEnd"
+    ref="pullRef"
   >
     <div
       class="yc-pull-refresh-track"
@@ -19,7 +21,10 @@
           height: `${headerHeight / 3.75}vw`,
         }"
       >
-        <span v-if="y > 0 && y < pullDistance" class="yc-pulling-text">
+        <span
+          v-if="y > pullDistance / 2 && y < pullDistance"
+          class="yc-pulling-text"
+        >
           {{ pullingText }}
         </span>
         <span v-if="y >= pullDistance && !loading" class="yc-loosing-text">
@@ -68,63 +73,71 @@ const {
   successDuration,
   successText,
 } = toRefs(props);
-// 刷新ref
+// 轨道实例
 const trackRef = ref<HTMLDivElement>();
+// 刷新实例
+const pullRef = ref<HTMLDivElement>();
 // 是否触摸
 const isTouch = ref<boolean>(false);
-//是否成功
+// 是否成功
 const isSuccess = ref<boolean>(false);
-// 之前的y
-const preY = ref(0);
-// 现在的y
+// y
 const y = ref(0);
+//  之前的Y
+let preY = 0;
 // 处理拖拽开始
 const handleTouchStart = (e: TouchEvent) => {
-  if (e.touches.length > 1 || loading.value || disabled.value) {
-    return;
-  }
-  isSuccess.value = false;
-  trackRef.value!.style.transition = 'none';
-  isTouch.value = true;
-  preY.value = e.touches[0].clientY;
-};
-// 处理拖拽移动
-const handleTouchMove = (e: TouchEvent) => {
+  const {
+    touches,
+    touches: [touch],
+  } = e;
   if (
-    e.touches.length > 1 ||
-    !isTouch.value ||
-    disabled.value ||
-    loading.value
+    pullRef.value?.scrollTop ||
+    touches.length > 1 ||
+    touch.force < 0.8 ||
+    loading.value ||
+    disabled.value
   ) {
     return;
   }
-  const offsetY = e.touches[0].clientY - preY.value;
-  y.value = offsetY < 0 ? 0 : offsetY;
+  trackRef.value!.style.transition = 'none';
+  isTouch.value = true;
+  isSuccess.value = false;
+  preY = touch.clientY;
+};
+// 处理拖拽移动
+const handleTouchMove = (e: TouchEvent) => {
+  const {
+    touches,
+    touches: [touch],
+  } = e;
+  if (touches.length > 1 || !isTouch.value || loading.value || disabled.value) {
+    return;
+  }
+  const offsetY = touch.clientY - preY;
   y.value =
     offsetY > pullDistance.value
       ? pullDistance.value + (offsetY - pullDistance.value) / 5
       : offsetY;
+  y.value = y.value < 0 ? 0 : y.value;
 };
 // 处理拖拽结束
 const handleTouchEnd = async (e: TouchEvent) => {
-  if (e.touches.length > 1 || loading.value || disabled.value) {
+  const { touches } = e;
+  if (!isTouch.value || touches.length > 1 || loading.value || disabled.value) {
     return;
   }
   isTouch.value = false;
-  preY.value = 0;
-  const offsetY = y.value;
-  y.value = headerHeight.value;
-  if (offsetY < pullDistance.value) {
-    y.value = 0;
+  preY = 0;
+  if (y.value >= pullDistance.value) {
+    y.value = headerHeight.value;
+    emits('refresh');
     trackRef.value!.style.transition = `transform ${animationDuration.value / 1000}s ease`;
-    return;
+    await sleep(animationDuration.value);
+    isSuccess.value = !!successText.value;
+    y.value = isSuccess.value ? headerHeight.value : 0;
+    await sleep(successDuration.value);
   }
-  emits('refresh');
-  trackRef.value!.style.transition = `transform ${animationDuration.value / 1000}s ease`;
-  await sleep(animationDuration.value);
-  isSuccess.value = !!successText.value;
-  y.value = isSuccess.value ? headerHeight.value : 0;
-  await sleep(successDuration.value);
   y.value = 0;
 };
 </script>
