@@ -69,6 +69,7 @@ const props = withDefaults(defineProps<PullRefreshProps>(), {
   animationDuration: 300,
   pullDistance: 50,
   headerHeight: 50,
+  pullRadio: 2.5,
   disabled: false,
 });
 const emits = defineEmits<PullRefreshEmits>();
@@ -80,6 +81,7 @@ const {
   animationDuration,
   successDuration,
   successText,
+  pullRadio,
 } = toRefs(props);
 // 轨道实例
 const trackRef = ref<HTMLDivElement>();
@@ -121,7 +123,8 @@ const handleTouchMove = (e: TouchEvent) => {
   if (!isTouch.value) {
     return;
   }
-  y.value = (touch.clientY - preY) / 2;
+  y.value =
+    (touch.clientY - preY) / (pullRadio.value <= 1 ? 1 : pullRadio.value);
   y.value = y.value < 0 ? 0 : y.value;
 };
 // 处理拖拽结束

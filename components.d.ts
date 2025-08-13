@@ -43,6 +43,7 @@ declare module 'vue' {
     Modal: typeof import('./src/components/Modal/Modal.vue')['default']
     ModalService: typeof import('./src/components/Modal/ModalService.vue')['default']
     Overlay: typeof import('./src/components/Overlay/index.vue')['default']
+    Picker: typeof import('./src/components/Picker/index.vue')['default']
     Popover: typeof import('./src/components/Popover/index.vue')['default']
     Popup: typeof import('./src/components/Popup/index.vue')['default']
     PopupSwiper: typeof import('./src/components/PopupSwiper/index.vue')['default']

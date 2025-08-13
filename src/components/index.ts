@@ -10,6 +10,7 @@ import Overlay from './Overlay';
 import PopupSwiper from './PopupSwiper';
 import Popup from './Popup';
 import Popover from './Popover';
+import Picker from './Picker';
 import PullRefresh from './PullRefresh';
 import Radio from './Radio';
 import Stepper from './Stepper';
@@ -28,6 +29,7 @@ const components: Record<string, Plugin> = {
   Message,
   Overlay,
   Popup,
+  Picker,
   PopupSwiper,
   Popover,
   PullRefresh,

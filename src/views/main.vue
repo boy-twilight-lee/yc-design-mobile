@@ -1,30 +1,20 @@
 <template>
   <div class="container">
-    <yc-pull-refresh
-      :loading="loading"
-      style="height: 100%; overflow: auto"
-      @refresh="handleLoad"
-    >
-      <div
-        v-for="i in 500"
-        :key="i"
-        style="line-height: 20px; text-align: center"
-      >
-        {{ i }}
-      </div>
-    </yc-pull-refresh>
+    <yc-picker :columns="columns" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
 const loading = ref(false);
-const handleLoad = () => {
-  loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-  }, 2000);
-};
+const columns = ref(
+  new Array(6).fill(undefined).map((_v, i) => {
+    return {
+      text: i,
+      value: i,
+    };
+  })
+);
 </script>
 
 <style lang="less" scoped>

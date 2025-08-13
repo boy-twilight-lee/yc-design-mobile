@@ -8,6 +8,8 @@ export interface PullRefreshProps {
   animationDuration?: number;
   headerHeight?: number;
   pullDistance?: number;
+  // 滑动距离到实际距离的系数，最小1
+  pullRadio?: number;
   disabled?: boolean;
 }
 
